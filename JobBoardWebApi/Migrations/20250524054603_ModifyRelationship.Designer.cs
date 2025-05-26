@@ -4,6 +4,7 @@ using JobBoardWebApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobBoardWebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250524054603_ModifyRelationship")]
+    partial class ModifyRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,52 +125,52 @@ namespace JobBoardWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fe2144cb-d08d-446b-b9df-523714c99e92"),
+                            Id = new Guid("36726b0e-fe49-4abe-9afc-3716c97b9e1d"),
                             Name = "FPT Software"
                         },
                         new
                         {
-                            Id = new Guid("ffbf50b0-7305-4ac0-90c2-e49b7a08b984"),
+                            Id = new Guid("75b13a09-e9ef-47f1-8673-a0671ff44605"),
                             Name = "VNPT Technology"
                         },
                         new
                         {
-                            Id = new Guid("7258171b-6a45-4e7f-abfb-5c2d50afcb15"),
+                            Id = new Guid("13c634ad-969d-4879-8f96-1a8ec11e48ba"),
                             Name = "VNG Corporation"
                         },
                         new
                         {
-                            Id = new Guid("638aea10-8568-44c0-a7a1-d449a8924296"),
+                            Id = new Guid("e041ccda-c2b2-46bf-80bb-71bf2e3dd30d"),
                             Name = "TMA Solutions"
                         },
                         new
                         {
-                            Id = new Guid("44454340-b175-44a5-bdb1-9d442e570298"),
+                            Id = new Guid("f4c64c4e-81cd-4055-b6ed-060ce85bdf64"),
                             Name = "KMS Technology"
                         },
                         new
                         {
-                            Id = new Guid("1b9d9231-0f75-4b26-83e5-74684d966f01"),
+                            Id = new Guid("d4d39007-93cb-477a-aa0b-1f80d56847c5"),
                             Name = "Axon Active"
                         },
                         new
                         {
-                            Id = new Guid("e044bb03-c870-4d5b-b83d-88fb3684a800"),
+                            Id = new Guid("ca61669a-c760-43f3-bf35-8869a1c4412e"),
                             Name = "CMC Corporation"
                         },
                         new
                         {
-                            Id = new Guid("9359db04-313a-49d7-b833-91066a5881c2"),
+                            Id = new Guid("24ce043b-ab70-479c-85dc-321069cb8cef"),
                             Name = "NashTech"
                         },
                         new
                         {
-                            Id = new Guid("c69eee87-9652-4145-bfd0-ce4a52b4a782"),
+                            Id = new Guid("dfc4ce6c-2c82-4833-bd4f-af4ed437d03b"),
                             Name = "Haravan"
                         },
                         new
                         {
-                            Id = new Guid("9fbed620-b672-4549-a76b-abe468165e06"),
+                            Id = new Guid("74e58484-0df8-488c-976d-d68391ed68de"),
                             Name = "Orient Software"
                         });
                 });
@@ -240,32 +243,32 @@ namespace JobBoardWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("518ff85c-661c-4b97-a343-854f8858dfe5"),
+                            Id = new Guid("0fdf1ddc-1338-43a2-a086-fd0514f84a5e"),
                             Name = "Intern"
                         },
                         new
                         {
-                            Id = new Guid("b42ccaf7-a9dd-44e1-993e-7cbf2ca12d9d"),
+                            Id = new Guid("5040bd75-0eff-4b0d-a33b-3f1fd03d1b1b"),
                             Name = "Fresher"
                         },
                         new
                         {
-                            Id = new Guid("00e1e3f4-daff-45db-b055-4e8283b1563d"),
+                            Id = new Guid("cab2a3f3-521e-4c35-af83-54481fafe4ad"),
                             Name = "Junior"
                         },
                         new
                         {
-                            Id = new Guid("d0a9fa35-223e-4284-b1fb-f07be08f8ee6"),
+                            Id = new Guid("d652052c-52ed-4821-951c-8d7815647ecf"),
                             Name = "Middle"
                         },
                         new
                         {
-                            Id = new Guid("eae63649-3211-4b47-bc58-131254555c35"),
+                            Id = new Guid("f17c7965-aed2-4f1b-8ce9-c70071b9995a"),
                             Name = "Senior"
                         },
                         new
                         {
-                            Id = new Guid("63f38ff1-6cb4-417d-b1b7-57d90e92bf05"),
+                            Id = new Guid("96611516-6784-4015-81e7-d6e8c7fb5aeb"),
                             Name = "Leader"
                         });
                 });
@@ -349,52 +352,52 @@ namespace JobBoardWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("26a3c7e6-f344-4bb0-9811-89ac178bedd3"),
+                            Id = new Guid("a62f9ce7-b62f-46f7-8108-bc3479d6c1c1"),
                             Name = "C#"
                         },
                         new
                         {
-                            Id = new Guid("5021f4c4-c732-4ace-960b-995247215fc7"),
+                            Id = new Guid("91e0bf0f-a2c5-4110-b107-366ed740f8c1"),
                             Name = "JavaScript"
                         },
                         new
                         {
-                            Id = new Guid("52eff507-7d32-4178-bec0-7ecf7911c230"),
+                            Id = new Guid("9293412b-c01e-4595-a926-b2f03bdfc469"),
                             Name = "Python"
                         },
                         new
                         {
-                            Id = new Guid("e6dec2bf-bcdf-4399-a788-d9eaa751c1a4"),
+                            Id = new Guid("32cddf5c-eaf9-4957-8691-9cb416587c44"),
                             Name = "SQL"
                         },
                         new
                         {
-                            Id = new Guid("7259a9bc-e588-49b7-86a3-c96c8350285e"),
+                            Id = new Guid("e977c0fd-3a80-4a7a-9dd1-e99a469811e6"),
                             Name = "HTML/CSS"
                         },
                         new
                         {
-                            Id = new Guid("10cb0bd6-acc2-41e3-a061-1c7cf8a11ddd"),
+                            Id = new Guid("d65fe7c6-d6ea-4c30-816b-ae54d56739fc"),
                             Name = "React"
                         },
                         new
                         {
-                            Id = new Guid("e2a19947-0929-4d22-a0ce-1909fe9df0a3"),
+                            Id = new Guid("2c08383d-ddb8-49ca-8031-7f7d52d42d30"),
                             Name = "ASP.NET Core"
                         },
                         new
                         {
-                            Id = new Guid("13ed3b93-d012-41a1-89ae-c98b3c0b0442"),
+                            Id = new Guid("2c5db1c5-a36e-4439-a0f4-2804d2c2ad6f"),
                             Name = "Java"
                         },
                         new
                         {
-                            Id = new Guid("5539df17-a840-4fff-8549-1019d5c9ce74"),
+                            Id = new Guid("2761bee2-5547-4c30-8534-184edddbae90"),
                             Name = "Kubernetes"
                         },
                         new
                         {
-                            Id = new Guid("65cbc7ec-d3b9-4ab3-8573-fc0423dfe944"),
+                            Id = new Guid("a4ec4c5b-b3fb-4ff4-8f18-31093fbcbec8"),
                             Name = "Azure"
                         });
                 });
@@ -454,7 +457,7 @@ namespace JobBoardWebApi.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("Updated_At")
+                    b.Property<DateTime>("Updated_At")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")

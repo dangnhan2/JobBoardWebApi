@@ -3,9 +3,11 @@
     public class Candidate
     {
         public Guid Id { get; set; }
-        public string Skills { get; set; }
         public string Gender { get; set; }
-        public List<Application> Applications { get; set; }
+        public bool IsStudent { get; set; }
+        public List<Application> Applications { get; set; } = new List<Application>();
+        public List<CandidateSkillMapping> candidateSkillMappings { get; set; } = new List<CandidateSkillMapping>();
+        
         public string UserId { get; set; }
         public User User { get; set; }
     }

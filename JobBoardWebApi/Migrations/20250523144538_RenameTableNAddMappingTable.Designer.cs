@@ -4,6 +4,7 @@ using JobBoardWebApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobBoardWebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250523144538_RenameTableNAddMappingTable")]
+    partial class RenameTableNAddMappingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,13 +34,16 @@ namespace JobBoardWebApi.Migrations
                     b.Property<Guid>("CandidateId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CoverLetter")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FileUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsStudent")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -75,8 +81,9 @@ namespace JobBoardWebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsStudent")
-                        .HasColumnType("bit");
+                    b.Property<string>("Skills")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -118,58 +125,6 @@ namespace JobBoardWebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("fe2144cb-d08d-446b-b9df-523714c99e92"),
-                            Name = "FPT Software"
-                        },
-                        new
-                        {
-                            Id = new Guid("ffbf50b0-7305-4ac0-90c2-e49b7a08b984"),
-                            Name = "VNPT Technology"
-                        },
-                        new
-                        {
-                            Id = new Guid("7258171b-6a45-4e7f-abfb-5c2d50afcb15"),
-                            Name = "VNG Corporation"
-                        },
-                        new
-                        {
-                            Id = new Guid("638aea10-8568-44c0-a7a1-d449a8924296"),
-                            Name = "TMA Solutions"
-                        },
-                        new
-                        {
-                            Id = new Guid("44454340-b175-44a5-bdb1-9d442e570298"),
-                            Name = "KMS Technology"
-                        },
-                        new
-                        {
-                            Id = new Guid("1b9d9231-0f75-4b26-83e5-74684d966f01"),
-                            Name = "Axon Active"
-                        },
-                        new
-                        {
-                            Id = new Guid("e044bb03-c870-4d5b-b83d-88fb3684a800"),
-                            Name = "CMC Corporation"
-                        },
-                        new
-                        {
-                            Id = new Guid("9359db04-313a-49d7-b833-91066a5881c2"),
-                            Name = "NashTech"
-                        },
-                        new
-                        {
-                            Id = new Guid("c69eee87-9652-4145-bfd0-ce4a52b4a782"),
-                            Name = "Haravan"
-                        },
-                        new
-                        {
-                            Id = new Guid("9fbed620-b672-4549-a76b-abe468165e06"),
-                            Name = "Orient Software"
-                        });
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Job", b =>
@@ -236,38 +191,6 @@ namespace JobBoardWebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Levels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("518ff85c-661c-4b97-a343-854f8858dfe5"),
-                            Name = "Intern"
-                        },
-                        new
-                        {
-                            Id = new Guid("b42ccaf7-a9dd-44e1-993e-7cbf2ca12d9d"),
-                            Name = "Fresher"
-                        },
-                        new
-                        {
-                            Id = new Guid("00e1e3f4-daff-45db-b055-4e8283b1563d"),
-                            Name = "Junior"
-                        },
-                        new
-                        {
-                            Id = new Guid("d0a9fa35-223e-4284-b1fb-f07be08f8ee6"),
-                            Name = "Middle"
-                        },
-                        new
-                        {
-                            Id = new Guid("eae63649-3211-4b47-bc58-131254555c35"),
-                            Name = "Senior"
-                        },
-                        new
-                        {
-                            Id = new Guid("63f38ff1-6cb4-417d-b1b7-57d90e92bf05"),
-                            Name = "Leader"
-                        });
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Photo", b =>
@@ -345,58 +268,6 @@ namespace JobBoardWebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Skills");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("26a3c7e6-f344-4bb0-9811-89ac178bedd3"),
-                            Name = "C#"
-                        },
-                        new
-                        {
-                            Id = new Guid("5021f4c4-c732-4ace-960b-995247215fc7"),
-                            Name = "JavaScript"
-                        },
-                        new
-                        {
-                            Id = new Guid("52eff507-7d32-4178-bec0-7ecf7911c230"),
-                            Name = "Python"
-                        },
-                        new
-                        {
-                            Id = new Guid("e6dec2bf-bcdf-4399-a788-d9eaa751c1a4"),
-                            Name = "SQL"
-                        },
-                        new
-                        {
-                            Id = new Guid("7259a9bc-e588-49b7-86a3-c96c8350285e"),
-                            Name = "HTML/CSS"
-                        },
-                        new
-                        {
-                            Id = new Guid("10cb0bd6-acc2-41e3-a061-1c7cf8a11ddd"),
-                            Name = "React"
-                        },
-                        new
-                        {
-                            Id = new Guid("e2a19947-0929-4d22-a0ce-1909fe9df0a3"),
-                            Name = "ASP.NET Core"
-                        },
-                        new
-                        {
-                            Id = new Guid("13ed3b93-d012-41a1-89ae-c98b3c0b0442"),
-                            Name = "Java"
-                        },
-                        new
-                        {
-                            Id = new Guid("5539df17-a840-4fff-8549-1019d5c9ce74"),
-                            Name = "Kubernetes"
-                        },
-                        new
-                        {
-                            Id = new Guid("65cbc7ec-d3b9-4ab3-8573-fc0423dfe944"),
-                            Name = "Azure"
-                        });
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.User", b =>
@@ -454,7 +325,7 @@ namespace JobBoardWebApi.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("Updated_At")
+                    b.Property<DateTime>("Updated_At")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
@@ -621,13 +492,13 @@ namespace JobBoardWebApi.Migrations
             modelBuilder.Entity("JobBoardWebApi.Models.ApplicationJobMapping", b =>
                 {
                     b.HasOne("JobBoardWebApi.Models.Application", "Application")
-                        .WithMany("ApplicationJobMapping")
+                        .WithMany("ApplicationJobs")
                         .HasForeignKey("ApplicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("JobBoardWebApi.Models.Job", "Job")
-                        .WithMany("ApplicationJobMapping")
+                        .WithMany("ApplicationJobs")
                         .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -781,7 +652,7 @@ namespace JobBoardWebApi.Migrations
 
             modelBuilder.Entity("JobBoardWebApi.Models.Application", b =>
                 {
-                    b.Navigation("ApplicationJobMapping");
+                    b.Navigation("ApplicationJobs");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Candidate", b =>
@@ -804,7 +675,7 @@ namespace JobBoardWebApi.Migrations
 
             modelBuilder.Entity("JobBoardWebApi.Models.Job", b =>
                 {
-                    b.Navigation("ApplicationJobMapping");
+                    b.Navigation("ApplicationJobs");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Level", b =>
