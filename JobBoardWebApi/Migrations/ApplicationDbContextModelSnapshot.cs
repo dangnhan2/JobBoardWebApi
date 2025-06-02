@@ -50,7 +50,7 @@ namespace JobBoardWebApi.Migrations
                     b.ToTable("Applications");
                 });
 
-            modelBuilder.Entity("JobBoardWebApi.Models.ApplicationJobMapping", b =>
+            modelBuilder.Entity("JobBoardWebApi.Models.AppliedJob", b =>
                 {
                     b.Property<Guid>("JobId")
                         .HasColumnType("uniqueidentifier");
@@ -62,7 +62,7 @@ namespace JobBoardWebApi.Migrations
 
                     b.HasIndex("ApplicationId");
 
-                    b.ToTable("ApplicationJobMappings");
+                    b.ToTable("AppliedJobs");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Candidate", b =>
@@ -111,6 +111,10 @@ namespace JobBoardWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("LogoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -118,58 +122,6 @@ namespace JobBoardWebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("fe2144cb-d08d-446b-b9df-523714c99e92"),
-                            Name = "FPT Software"
-                        },
-                        new
-                        {
-                            Id = new Guid("ffbf50b0-7305-4ac0-90c2-e49b7a08b984"),
-                            Name = "VNPT Technology"
-                        },
-                        new
-                        {
-                            Id = new Guid("7258171b-6a45-4e7f-abfb-5c2d50afcb15"),
-                            Name = "VNG Corporation"
-                        },
-                        new
-                        {
-                            Id = new Guid("638aea10-8568-44c0-a7a1-d449a8924296"),
-                            Name = "TMA Solutions"
-                        },
-                        new
-                        {
-                            Id = new Guid("44454340-b175-44a5-bdb1-9d442e570298"),
-                            Name = "KMS Technology"
-                        },
-                        new
-                        {
-                            Id = new Guid("1b9d9231-0f75-4b26-83e5-74684d966f01"),
-                            Name = "Axon Active"
-                        },
-                        new
-                        {
-                            Id = new Guid("e044bb03-c870-4d5b-b83d-88fb3684a800"),
-                            Name = "CMC Corporation"
-                        },
-                        new
-                        {
-                            Id = new Guid("9359db04-313a-49d7-b833-91066a5881c2"),
-                            Name = "NashTech"
-                        },
-                        new
-                        {
-                            Id = new Guid("c69eee87-9652-4145-bfd0-ce4a52b4a782"),
-                            Name = "Haravan"
-                        },
-                        new
-                        {
-                            Id = new Guid("9fbed620-b672-4549-a76b-abe468165e06"),
-                            Name = "Orient Software"
-                        });
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Job", b =>
@@ -181,8 +133,8 @@ namespace JobBoardWebApi.Migrations
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<TimeSpan>("Created_At")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("Created_At")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -209,8 +161,8 @@ namespace JobBoardWebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan?>("Updated_At")
-                        .HasColumnType("time");
+                    b.Property<DateTime?>("Updated_At")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -240,72 +192,34 @@ namespace JobBoardWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("518ff85c-661c-4b97-a343-854f8858dfe5"),
+                            Id = new Guid("5c16940b-ac71-444d-8931-f33ed77dfb03"),
                             Name = "Intern"
                         },
                         new
                         {
-                            Id = new Guid("b42ccaf7-a9dd-44e1-993e-7cbf2ca12d9d"),
+                            Id = new Guid("8f8c0b4a-78dd-4816-823c-fb81c445c856"),
                             Name = "Fresher"
                         },
                         new
                         {
-                            Id = new Guid("00e1e3f4-daff-45db-b055-4e8283b1563d"),
+                            Id = new Guid("39725961-75c7-40fa-a1cb-f24d64dfd95b"),
                             Name = "Junior"
                         },
                         new
                         {
-                            Id = new Guid("d0a9fa35-223e-4284-b1fb-f07be08f8ee6"),
+                            Id = new Guid("2743a523-ebfa-4bc2-bdb8-30771dfa2aa9"),
                             Name = "Middle"
                         },
                         new
                         {
-                            Id = new Guid("eae63649-3211-4b47-bc58-131254555c35"),
+                            Id = new Guid("ef4d8cad-651a-4d82-8fa8-f42e5388b6e0"),
                             Name = "Senior"
                         },
                         new
                         {
-                            Id = new Guid("63f38ff1-6cb4-417d-b1b7-57d90e92bf05"),
+                            Id = new Guid("ce466fa5-f874-452f-a99f-ab77b89d7282"),
                             Name = "Leader"
                         });
-                });
-
-            modelBuilder.Entity("JobBoardWebApi.Models.Photo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid?>("CompanyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PublicId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UploadedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId")
-                        .IsUnique()
-                        .HasFilter("[CompanyId] IS NOT NULL");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Recruiter", b =>
@@ -332,6 +246,27 @@ namespace JobBoardWebApi.Migrations
                     b.ToTable("Recruiters");
                 });
 
+            modelBuilder.Entity("JobBoardWebApi.Models.SavedJob", b =>
+                {
+                    b.Property<Guid>("JobId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CandidateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("SavedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("JobId", "CandidateId");
+
+                    b.HasIndex("CandidateId");
+
+                    b.ToTable("SavedJobs");
+                });
+
             modelBuilder.Entity("JobBoardWebApi.Models.Skill", b =>
                 {
                     b.Property<Guid>("Id")
@@ -349,52 +284,52 @@ namespace JobBoardWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("26a3c7e6-f344-4bb0-9811-89ac178bedd3"),
+                            Id = new Guid("90e9ce97-4d57-4847-8a03-1d5c19037f1b"),
                             Name = "C#"
                         },
                         new
                         {
-                            Id = new Guid("5021f4c4-c732-4ace-960b-995247215fc7"),
+                            Id = new Guid("1601702e-c063-4fe1-91ca-932f63e7676a"),
                             Name = "JavaScript"
                         },
                         new
                         {
-                            Id = new Guid("52eff507-7d32-4178-bec0-7ecf7911c230"),
+                            Id = new Guid("2d7a497c-8ccd-40c1-a6d3-6b33cd93b955"),
                             Name = "Python"
                         },
                         new
                         {
-                            Id = new Guid("e6dec2bf-bcdf-4399-a788-d9eaa751c1a4"),
+                            Id = new Guid("b8a81c69-3124-47b5-892a-d06b5408c21a"),
                             Name = "SQL"
                         },
                         new
                         {
-                            Id = new Guid("7259a9bc-e588-49b7-86a3-c96c8350285e"),
+                            Id = new Guid("73cc5603-732d-450f-8010-8e51124430de"),
                             Name = "HTML/CSS"
                         },
                         new
                         {
-                            Id = new Guid("10cb0bd6-acc2-41e3-a061-1c7cf8a11ddd"),
+                            Id = new Guid("229a00af-d47c-42fa-96be-f00eac1120b3"),
                             Name = "React"
                         },
                         new
                         {
-                            Id = new Guid("e2a19947-0929-4d22-a0ce-1909fe9df0a3"),
+                            Id = new Guid("3098974a-c130-4ec9-86a3-45a3fa76630f"),
                             Name = "ASP.NET Core"
                         },
                         new
                         {
-                            Id = new Guid("13ed3b93-d012-41a1-89ae-c98b3c0b0442"),
+                            Id = new Guid("5df7e074-2bb2-48a5-ab79-59f024595c8a"),
                             Name = "Java"
                         },
                         new
                         {
-                            Id = new Guid("5539df17-a840-4fff-8549-1019d5c9ce74"),
+                            Id = new Guid("73dc8f76-ad4b-41ed-826d-334bffc72015"),
                             Name = "Kubernetes"
                         },
                         new
                         {
-                            Id = new Guid("65cbc7ec-d3b9-4ab3-8573-fc0423dfe944"),
+                            Id = new Guid("50e86ad5-4f13-4420-bfe7-7dd8ca38bcd3"),
                             Name = "Azure"
                         });
                 });
@@ -447,6 +382,10 @@ namespace JobBoardWebApi.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ProfilePicUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -618,7 +557,7 @@ namespace JobBoardWebApi.Migrations
                     b.Navigation("Candidate");
                 });
 
-            modelBuilder.Entity("JobBoardWebApi.Models.ApplicationJobMapping", b =>
+            modelBuilder.Entity("JobBoardWebApi.Models.AppliedJob", b =>
                 {
                     b.HasOne("JobBoardWebApi.Models.Application", "Application")
                         .WithMany("ApplicationJobMapping")
@@ -694,21 +633,6 @@ namespace JobBoardWebApi.Migrations
                     b.Navigation("Skill");
                 });
 
-            modelBuilder.Entity("JobBoardWebApi.Models.Photo", b =>
-                {
-                    b.HasOne("JobBoardWebApi.Models.Company", "Company")
-                        .WithOne("Photo")
-                        .HasForeignKey("JobBoardWebApi.Models.Photo", "CompanyId");
-
-                    b.HasOne("JobBoardWebApi.Models.User", "User")
-                        .WithOne("Photo")
-                        .HasForeignKey("JobBoardWebApi.Models.Photo", "UserId");
-
-                    b.Navigation("Company");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("JobBoardWebApi.Models.Recruiter", b =>
                 {
                     b.HasOne("JobBoardWebApi.Models.Company", "Company")
@@ -726,6 +650,25 @@ namespace JobBoardWebApi.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("JobBoardWebApi.Models.SavedJob", b =>
+                {
+                    b.HasOne("JobBoardWebApi.Models.Candidate", "Candidate")
+                        .WithMany("SavedJobs")
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobBoardWebApi.Models.Job", "Job")
+                        .WithMany("SavedJobs")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Candidate");
+
+                    b.Navigation("Job");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -788,15 +731,14 @@ namespace JobBoardWebApi.Migrations
                 {
                     b.Navigation("Applications");
 
+                    b.Navigation("SavedJobs");
+
                     b.Navigation("candidateSkillMappings");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Company", b =>
                 {
                     b.Navigation("Jobs");
-
-                    b.Navigation("Photo")
-                        .IsRequired();
 
                     b.Navigation("Recruiter")
                         .IsRequired();
@@ -805,6 +747,8 @@ namespace JobBoardWebApi.Migrations
             modelBuilder.Entity("JobBoardWebApi.Models.Job", b =>
                 {
                     b.Navigation("ApplicationJobMapping");
+
+                    b.Navigation("SavedJobs");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Level", b =>
@@ -822,8 +766,6 @@ namespace JobBoardWebApi.Migrations
             modelBuilder.Entity("JobBoardWebApi.Models.User", b =>
                 {
                     b.Navigation("Candidate");
-
-                    b.Navigation("Photo");
 
                     b.Navigation("Recruiter");
                 });

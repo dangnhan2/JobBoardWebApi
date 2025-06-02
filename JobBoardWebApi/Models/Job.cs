@@ -11,15 +11,16 @@ namespace JobBoardWebApi.Models
         public string Location { get; set; }
         public string Salary { get; set; }
         public string Status { get; set; }
-        public TimeSpan Created_At { get; set; }
-        public TimeSpan? Updated_At { get; set; }
+        public DateTime Created_At { get; set; }
+        public DateTime? Updated_At { get; set; }
         public Guid SkillId { get; set; }
         public Skill Skill { get; set; }
         public Guid LevelId { get; set; }
         public Level Level { get; set; }
         public Guid CompanyId { get; set; }
         public Company Company { get; set; }
-        public List<ApplicationJobMapping> ApplicationJobMapping { get; set; } = new List<ApplicationJobMapping>();
+        public List<AppliedJob> ApplicationJobMapping { get; set; } = new List<AppliedJob>();
+        public List<SavedJob> SavedJobs { get; set; } = new List<SavedJob>();
     }
 }
 

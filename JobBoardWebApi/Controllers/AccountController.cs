@@ -5,6 +5,7 @@ using JobBoardWebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 using System.Security.Claims;
 
 namespace JobBoardWebApi.Controllers
@@ -18,6 +19,7 @@ namespace JobBoardWebApi.Controllers
         private readonly IJwtService _jwtService;
         private readonly ICandidateRepo _candidateRepo;
         private readonly SignInManager<User> _signInManager;
+          
 
         public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IJwtService jwtService, ICandidateRepo candidateRepo, SignInManager<User> signInManager)
         {
@@ -26,6 +28,7 @@ namespace JobBoardWebApi.Controllers
             _jwtService = jwtService;
             _candidateRepo = candidateRepo;
             _signInManager = signInManager;
+           
         }
 
         [HttpPost("register")]
@@ -49,6 +52,7 @@ namespace JobBoardWebApi.Controllers
                 PasswordHash = register.Password,
                 UserName = register.FullName,
                 Created_At = DateTime.UtcNow,
+                ProfilePicUrl = "user.png",
                 EmailConfirmed = true,
             };
 
@@ -73,7 +77,7 @@ namespace JobBoardWebApi.Controllers
                 });
             }
 
-            var candidate = new Candidate
+            var candidate = new Models.Candidate
             {
                 Id = Guid.NewGuid(),
                 Gender = "",
@@ -96,6 +100,7 @@ namespace JobBoardWebApi.Controllers
         public async Task<ActionResult<UserDto>> Login([FromBody] Login login)
         {
             var user = await _userManager.FindByEmailAsync(login.Email.ToLower());
+
             if (user == null)
             {
                 return Unauthorized("Invalid email or password");
@@ -124,14 +129,18 @@ namespace JobBoardWebApi.Controllers
         #region private helper method
         private async Task<UserDto> Createdtodto(User user)
         {
-            return new UserDto
+
+            var dto = new UserDto
             {
                 UserName = user.UserName,
                 Email = user.Email,
-                Token = await _jwtService.GenerateToken(user),
+                ProfilePicUrl = user.ProfilePicUrl,
+                Token = await _jwtService.GenerateToken(user)
             };
-        }
 
+            return dto;
+        }
+       
         private async Task<bool> IsEmailAvailable(string email)
         {
             var isEmailExist = await _userManager.FindByEmailAsync(email);
@@ -149,3 +158,5 @@ namespace JobBoardWebApi.Controllers
 
 
 }
+             
+            

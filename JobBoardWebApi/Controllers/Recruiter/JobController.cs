@@ -1,0 +1,124 @@
+﻿using JobBoardWebApi.Dtos;
+using JobBoardWebApi.Models;
+using JobBoardWebApi.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+
+namespace JobBoardWebApi.Controllers.Recruiter
+{   
+    [Route("api/recruiter/[controller]")]
+    [ApiController]
+    [Authorize(Roles = "Recruiter")]
+    public class JobController : ControllerBase
+    {
+        private readonly IJobService _jobService;
+
+        public JobController(IJobService jobService)
+        {
+            _jobService = jobService;
+        }
+
+        [HttpGet("getAllJobsApproved")]
+        public async Task<IActionResult> GetAllJobsApproved([Required] int page, [Required] int pageSize)
+        {
+            var jobs = await _jobService.GetAllJobApprovedAsync(page, pageSize);
+            return Ok(new
+            {
+                message = "Jobs retrieved successfully",
+                statusCode = StatusCodes.Status200OK,
+                data = jobs
+            });
+        }
+
+        [HttpGet("getById/{id}")]
+        public async Task<IActionResult> GetJobById(Guid id)
+        {
+            try
+            {
+                var job = await _jobService.GetByIdAsync(id);
+                return Ok(new
+                {
+                    message = "Job retrieved successfully",
+                    statusCode = StatusCodes.Status200OK,
+                    data = job
+                });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new
+                {
+                    message = ex.Message,
+                    statusCode = StatusCodes.Status404NotFound,
+                });
+            }
+
+        }
+
+        [HttpPost("addJob")]
+        public async Task<IActionResult> CreateJob([FromForm] JobRequest job)
+        {
+            try
+            {
+                await _jobService.CreateJobAsync(job);
+                return Ok(new
+                {
+                    message = "Job created successfully",
+                    statusCode = StatusCodes.Status201Created,
+
+                });
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(new
+                {
+                    message = e.Message,
+                    statusCode = StatusCodes.Status400BadRequest
+                });
+
+
+            }
+        }
+
+        [HttpPut("updateJob/{id}")]
+        public async Task<IActionResult> UpdateJob(Guid id, [FromForm] JobRequest job)
+        {
+            try
+            {
+                await _jobService.UpdateJobForRecruiterAsync(id, job);
+                return Ok(new
+                {
+                    message = "Job updated successfully",
+                    statusCode = StatusCodes.Status200OK,
+                });
+
+            }
+            catch (KeyNotFoundException e)
+            {
+                return NotFound(new
+                {
+                    message = e.Message,
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(new
+                {
+                    message = e.Message,
+                    StatusCode = StatusCodes.Status400BadRequest
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new
+                {
+                    message = e.Message,
+                    StatusCode = StatusCodes.Status400BadRequest
+                });
+
+            }
+        }
+    }
+}

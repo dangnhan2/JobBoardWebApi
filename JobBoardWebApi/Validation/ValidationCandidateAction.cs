@@ -3,7 +3,7 @@ using JobBoardWebApi.Dtos;
 
 namespace JobBoardWebApi.Validation
 {
-    public class ValidationCandidateAction : AbstractValidator<CandidateAction>
+    public class ValidationCandidateAction : AbstractValidator<CandidateRequest>
     {
         public ValidationCandidateAction() {
             RuleFor(x => x.UserName)

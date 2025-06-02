@@ -6,10 +6,10 @@ namespace JobBoardWebApi.Models
     {
         public Guid Id { get; set; }      
         public string Status { get; set; }
-        public string FileUrl { get; set; }
         public string CoverLetter { get; set; }
+        public string FileUrl { get; set; }
         public Guid CandidateId { get; set; }
         public Candidate Candidate { get; set; }
-        public List<ApplicationJobMapping> ApplicationJobMapping { get; set; } = new List<ApplicationJobMapping>();
+        public List<AppliedJob> ApplicationJobMapping { get; set; } = new List<AppliedJob>();
     }
 }

@@ -41,7 +41,8 @@ namespace JobBoardWebApi.Service
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(int.Parse(Environment.GetEnvironmentVariable("JWT_EXPIRES_MINUTES"))),
                 SigningCredentials = credentials,
-                Issuer = issuer
+                Issuer = issuer,
+                Audience = audience,
             };
        
 
