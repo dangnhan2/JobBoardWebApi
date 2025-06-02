@@ -15,7 +15,7 @@ namespace JobBoardWebApi.Service
             _levelRepo = levelRepo;
         }
 
-        public async  Task AddLevel(LevelAction level)
+        public async  Task AddLevel(LevelRequest level)
         {
             var levels = _levelRepo.GetAll();
 
@@ -48,7 +48,7 @@ namespace JobBoardWebApi.Service
             return await levels.Select(l => LevelMapper.MapLevelToDto(l)).ToListAsync();
         }
 
-        public async Task UpdateLevel(Guid id, LevelAction level)
+        public async Task UpdateLevel(Guid id, LevelRequest level)
         {
             var isExist = await _levelRepo.GetById(id) ?? throw new KeyNotFoundException("Level not found!");
 

@@ -8,10 +8,10 @@ namespace JobBoardWebApi.Mapper
     
     public static partial class CandidateMapper
     {
-        [MapProperty(nameof(Candidate.User.FullName), nameof(CandidateDto.FullName))]
-        [MapProperty(nameof(Candidate.User.UserName), nameof(CandidateDto.UserName))]
-        [MapProperty(nameof(Candidate.User.Email), nameof(CandidateDto.Email))]
-        public static partial CandidateDto MapCandidateToDto(Candidate candidate);
+        [MapProperty(nameof(Candidate.User.FullName), nameof(CandidatesDto.FullName))]
+        [MapProperty(nameof(Candidate.User.UserName), nameof(CandidatesDto.UserName))]
+        [MapProperty(nameof(Candidate.User.Email), nameof(CandidatesDto.Email))]
+        public static partial CandidatesDto MapCandidateToDto(Candidate candidate);
     }
 }
 

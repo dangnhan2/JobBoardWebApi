@@ -17,11 +17,11 @@ namespace JobBoardWebApi
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Level> Levels { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<ApplicationJobMapping> ApplicationJobMappings { get; set; }
+        public DbSet<AppliedJob> AppliedJobs { get; set; }
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<Recruiter> Recruiters { get; set; }
-        public DbSet<Photo> Photos { get; set; }
 
+        public DbSet<SavedJob> SavedJobs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -31,11 +31,25 @@ namespace JobBoardWebApi
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationJobMapping>()
+            builder.Entity<AppliedJob>()
                 .HasKey(aj =>new { aj.JobId, aj.ApplicationId});
 
             builder.Entity<CandidateSkillMapping>()
                 .HasKey(ck => new {ck.CandidateId, ck.SkillId });
+
+            builder.Entity<SavedJob>()
+                .HasKey(sj => new {sj.JobId, sj.CandidateId });
+
+            builder.Entity<SavedJob>()
+                .HasOne(sj => sj.Job)
+                .WithMany(sj => sj.SavedJobs)
+                .HasForeignKey(sj => sj.JobId);
+
+            builder.Entity<SavedJob>()
+                .HasOne(sj => sj.Candidate)
+                .WithMany(sj => sj.SavedJobs)
+                .HasForeignKey(sj => sj.CandidateId);
+                
 
             builder.Entity<CandidateSkillMapping>()
                 .HasOne(ck => ck.Skill)
@@ -47,12 +61,12 @@ namespace JobBoardWebApi
                 .WithMany(ck => ck.candidateSkillMappings)
                 .HasForeignKey(ck => ck.CandidateId);
 
-            builder.Entity<ApplicationJobMapping>()
+            builder.Entity<AppliedJob>()
                 .HasOne(aj => aj.Application)
                 .WithMany(aj => aj.ApplicationJobMapping)
                 .HasForeignKey(aj => aj.ApplicationId);
 
-            builder.Entity<ApplicationJobMapping>()
+            builder.Entity<AppliedJob>()
                 .HasOne(aj => aj.Job)
                 .WithMany(aj => aj.ApplicationJobMapping)
                 .HasForeignKey(aj => aj.JobId);
@@ -81,8 +95,6 @@ namespace JobBoardWebApi
                 .HasForeignKey(c => c.SkillId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-                
-
             builder.Entity<Level>()
                 .HasData(
                  new Level { Id = Guid.NewGuid(), Name = "Intern" },
@@ -104,20 +116,6 @@ namespace JobBoardWebApi
                 new Skill { Id = Guid.NewGuid(), Name = "Java" },
                 new Skill { Id = Guid.NewGuid(), Name = "Kubernetes" },
                 new Skill { Id = Guid.NewGuid(), Name = "Azure" });
-
-            builder.Entity<Company>().HasData(
-                new Company { Id = Guid.NewGuid(), Name = "FPT Software" },
-                new Company { Id = Guid.NewGuid(), Name = "VNPT Technology" },
-                new Company { Id = Guid.NewGuid(), Name = "VNG Corporation" },
-                new Company { Id = Guid.NewGuid(), Name = "TMA Solutions" },
-                new Company { Id = Guid.NewGuid(), Name = "KMS Technology" },
-                new Company { Id = Guid.NewGuid(), Name = "Axon Active" },
-                new Company { Id = Guid.NewGuid(), Name = "CMC Corporation" },
-                new Company { Id = Guid.NewGuid(), Name = "NashTech" },
-                new Company { Id = Guid.NewGuid(), Name = "Haravan" },
-                new Company { Id = Guid.NewGuid(), Name = "Orient Software" }
-            );
-
 
         }
     }

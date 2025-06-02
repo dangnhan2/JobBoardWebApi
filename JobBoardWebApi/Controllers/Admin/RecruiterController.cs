@@ -3,11 +3,13 @@ using JobBoardWebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
-namespace JobBoardWebApi.Controllers
+namespace JobBoardWebApi.Controllers.Admin
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class RecruiterController : ControllerBase
     {
         private readonly IRecruiterService _recruiterService;
@@ -18,13 +20,13 @@ namespace JobBoardWebApi.Controllers
         }
 
         [HttpGet("GetAllRecruiters")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([Required] int page, [Required] int pageSize)
         {
-            var result = await _recruiterService.GetAllRecruiter();
+            var result = await _recruiterService.GetAllRecruiterAsync(page, pageSize);
 
             return Ok(new
             {
-                message = "Recruiters retrieved successfully",
+                msg = "Recruiters retrieved successfully",
                 statusCode = StatusCodes.Status200OK,
                 data = result
             });
@@ -35,10 +37,10 @@ namespace JobBoardWebApi.Controllers
         {
             try
             {
-                var result = await _recruiterService.GetById(id);
+                var result = await _recruiterService.GetByIdAsync(id);
                 return Ok(new
                 {
-                    message = "Recruiter retrieved successfully",
+                    msg = "Recruiter retrieved successfully",
                     statusCode = StatusCodes.Status200OK,
                     data = result
                 });
@@ -48,22 +50,21 @@ namespace JobBoardWebApi.Controllers
             {
                 return NotFound(new
                 {
-                    message = ex.Message,
+                    msg = ex.Message,
                     statusCode = StatusCodes.Status404NotFound
                 });
             }
         }
 
-       
         [HttpPost("CreateRecruiter")]
-        public async Task<IActionResult> Create([FromBody] RecruiterAction recruiterPostDto)
+        public async Task<IActionResult> Create([FromBody] RecruiterRequest recruiterPostDto)
         {
             try
             {
-                await _recruiterService.CreateRecruiter(recruiterPostDto);
+                await _recruiterService.CreateRecruiterAsync(recruiterPostDto);
                 return Ok(new
                 {
-                    Message = "Recruiter created successfully",
+                    msg = "Recruiter created successfully",
                     StatusCode = StatusCodes.Status201Created
                 });
             }
@@ -71,29 +72,45 @@ namespace JobBoardWebApi.Controllers
             {
                 return BadRequest(new
                 {
-                    message = ex.Message,
+                    msg = ex.Message,
                     statusCode = StatusCodes.Status400BadRequest
                 });
             }
         }
 
         [HttpPut("UpdateRecruiter/{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] RecruiterAction recruiterPostDto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] RecruiterPutRequest recruiterPostDto)
         {
             try
             {
-                await _recruiterService.UpdateRecruiter(id, recruiterPostDto);
+                await _recruiterService.UpdateRecruiterAsync(id, recruiterPostDto);
                 return Ok(new
                 {
-                    message = "Recruiter updated successfully",
+                    msg = "Recruiter updated successfully",
                     statusCode = StatusCodes.Status200OK
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new
+                {
+                    msg = ex.Message,
+                    statusCode = StatusCodes.Status400BadRequest
+                });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(new
+                {
+                    msg = ex.Message,
+                    statusCode = StatusCodes.Status400BadRequest
                 });
             }
             catch (KeyNotFoundException ex)
             {
                 return NotFound(new
                 {
-                    message = ex.Message,
+                    msg = ex.Message,
                     statusCode = StatusCodes.Status404NotFound
                 });
             }
@@ -104,10 +121,10 @@ namespace JobBoardWebApi.Controllers
         {
             try
             {
-                await _recruiterService.DeleteRecruiter(id);
+                await _recruiterService.DeleteRecruiterAsync(id);
                 return Ok(new
                 {
-                    message = "Recruiter deleted successfully",
+                    msg = "Recruiter deleted successfully",
                     statusCode = StatusCodes.Status200OK
                 });
             }
@@ -115,7 +132,7 @@ namespace JobBoardWebApi.Controllers
             {
                 return NotFound(new
                 {
-                    message = ex.Message,
+                    msg = ex.Message,
                     statusCode = StatusCodes.Status404NotFound
                 });
             }

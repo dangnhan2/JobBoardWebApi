@@ -1,6 +1,6 @@
 ﻿namespace JobBoardWebApi.Models
 {
-    public class ApplicationJobMapping
+    public class AppliedJob
     {
         public Guid ApplicationId { get; set; }
         public Application Application { get; set; }

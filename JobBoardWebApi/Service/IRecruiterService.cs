@@ -4,10 +4,10 @@ namespace JobBoardWebApi.Service
 {
     public interface IRecruiterService
     {
-        Task<IEnumerable<RecruiterDto>> GetAllRecruiter();
-        Task<RecruiterDto> GetById(Guid id);
-        Task CreateRecruiter(RecruiterAction recruiterPostDto);
-        Task UpdateRecruiter(Guid id, RecruiterAction recruiterPostDto);
-        Task DeleteRecruiter(Guid id);
+        Task<IEnumerable<RecruiterDto>> GetAllRecruiterAsync(int pageSize, int page);
+        Task<RecruitersDto> GetByIdAsync(Guid id);
+        Task CreateRecruiterAsync(RecruiterRequest recruiterPostDto);
+        Task UpdateRecruiterAsync(Guid id, RecruiterPutRequest recruiterPostDto);
+        Task DeleteRecruiterAsync(Guid id);
     }
 }

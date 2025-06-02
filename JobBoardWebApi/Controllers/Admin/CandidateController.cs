@@ -1,13 +1,14 @@
-﻿using JobBoardWebApi.Dtos;
-using JobBoardWebApi.Service;
+﻿using JobBoardWebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
-namespace JobBoardWebApi.Controllers
+namespace JobBoardWebApi.Controllers.Admin
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     [ApiController]
+    [Authorize ("Admin")]
     public class CandidateController : ControllerBase
     {
         private readonly ICandidateService _candidateService;
@@ -17,11 +18,10 @@ namespace JobBoardWebApi.Controllers
             _candidateService = candidateService;
         }
 
-        //[Authorize(Roles = SD.AdminRole)]
         [HttpGet("getAllCandidate")]
-        public async Task<IActionResult> GetAllCandidate()
+        public async Task<IActionResult> GetAllCandidate([Required] int page, [Required] int pageSize)
         {
-            var candidates = await _candidateService.GetAllCandidates();
+            var candidates = await _candidateService.GetAllCandidatesAsync(page, pageSize);
             return Ok(new
             {
                 Message = "Candidates retrieved successfully",
@@ -30,13 +30,12 @@ namespace JobBoardWebApi.Controllers
             });
         }
 
-        //[Authorize(Roles = SD.AdminRole)]
         [HttpGet("getCandidateById/{id}")]
         public async Task<IActionResult> GetCandidateById(Guid id)
         {
             try
             {
-                var candidate = await _candidateService.GetCandidateById(id);
+                var candidate = await _candidateService.GetCandidateByIdAsync(id);
                 return Ok(new
                 {
                     message = "Candidate retrieved successfully",
@@ -54,46 +53,12 @@ namespace JobBoardWebApi.Controllers
             }
         }
 
-        //[Authorize(Roles = SD.CandidateRole)]
-        //[Authorize(Roles = SD.AdminRole)]
-        [HttpPut("updateCandidate/{id}")]
-        public async Task<IActionResult> UpdateCandidate(Guid id, CandidateAction candidateAction)
-        {
-            try
-            {
-                await _candidateService.UpdateCandidate(id, candidateAction);
-                return Ok(new
-                {
-                    message = "Updated successful!",
-                    statusCode = StatusCodes.Status200OK,
-
-                });
-            }
-            catch (InvalidOperationException e)
-            {
-                return BadRequest(new
-                {
-                    message = e.Message,
-                    statusCode = StatusCodes.Status400BadRequest,
-                });
-            }
-            catch (KeyNotFoundException e)
-            {
-                return NotFound(new
-                {
-                    message = e.Message,
-                    statusCode = StatusCodes.Status404NotFound,
-                });
-            }
-        }
-
-        //[Authorize(Roles = SD.AdminRole)]
         [HttpDelete("deleteCandidate/{id}")]
         public async Task<IActionResult> DeleteCandidate(Guid id)
         {
             try
             {
-                await _candidateService.DeleteCandidate(id);
+                await _candidateService.DeleteCandidateAsync(id);
                 return Ok(new
                 {
                     message = "Candidate deleted successfully",

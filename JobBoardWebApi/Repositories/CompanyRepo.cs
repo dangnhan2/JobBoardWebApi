@@ -1,4 +1,5 @@
 ﻿using JobBoardWebApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobBoardWebApi.Repositories
 {
@@ -28,7 +29,10 @@ namespace JobBoardWebApi.Repositories
 
         public async Task<Company?> GetById(Guid id)
         {
-            return await _context.Companies.FindAsync(id);
+            return await _context.Companies
+                .Include(c => c.Jobs).ThenInclude(c => c.Skill)
+                .Include(c => c.Jobs).ThenInclude(c => c.Level)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public void Update(Company company)

@@ -1,6 +1,6 @@
 ﻿namespace JobBoardWebApi.Dtos
 {
-    public class RecruiterAction
+    public class RecruiterRequest
     {
         public string UserName { get; set; }
         public string Email { get; set; }

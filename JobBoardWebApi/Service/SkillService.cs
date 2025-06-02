@@ -14,7 +14,7 @@ namespace JobBoardWebApi.Service
             _skillRepo = skillRepo;
         }
 
-        public async Task AddSkill(SkillAction category)
+        public async Task AddSkill(SkillRequest category)
         {
             var skills = _skillRepo.GetSkills();
 
@@ -52,7 +52,7 @@ namespace JobBoardWebApi.Service
             }).ToListAsync();
         }
 
-        public async Task UpdateSkill(Guid id, SkillAction skill)
+        public async Task UpdateSkill(Guid id, SkillRequest skill)
         {
             var isExist = await _skillRepo.GetById(id) ?? throw new KeyNotFoundException("Id not found!");
 

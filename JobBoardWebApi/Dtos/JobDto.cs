@@ -8,7 +8,7 @@
         public string Location { get; set; }
         public string Salary { get; set; }
         public string Status { get; set; }
-        public TimeSpan Created_At { get; set; }
+        public DateTime Created_At { get; set; }
         public string Company { get; set; }
         public string Level { get; set; }
         public string Skill { get; set; }

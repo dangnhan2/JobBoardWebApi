@@ -1,6 +1,6 @@
 ﻿namespace JobBoardWebApi.Dtos
 {
-    public class SkillAction
+    public class LevelRequest
     {
         public string Name { get; set; }
     }
