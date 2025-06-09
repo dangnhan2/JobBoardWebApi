@@ -2,17 +2,15 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using DotNetEnv;
-using JobBoardWebApi;
+using JobBoardWebApi.Data;
 using JobBoardWebApi.Models;
 using JobBoardWebApi.Repositories;
 using JobBoardWebApi.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +52,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireNonAlphanumeric = false;
 
     options.User.RequireUniqueEmail = true;
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -._@+";
 });
 
 builder.Services.AddIdentity<User, IdentityRole>()
@@ -92,23 +91,19 @@ builder.Services
 builder.Services.AddSingleton(cloudinary);
 
 
-builder.Services.AddScoped<ICandidateRepo, CandidateRepo>();
-builder.Services.AddScoped<ICandidateService, CandidateService>();
-builder.Services.AddScoped<ILevelRepo, LevelRepo>();
-builder.Services.AddScoped<ILevelService, LevelService>();
-builder.Services.AddScoped<ICompanyRepo, CompanyRepo>();
-builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<ISkillRepo, SkillRepo>();
-builder.Services.AddScoped<ISkillService, SkillService>();
-builder.Services.AddScoped<IRecruiterRepo, RecruiterRepo>();
-builder.Services.AddScoped<IRecruiterService, RecruiterService>();
-builder.Services.AddScoped<IJobRepo, JobRepo>();
-builder.Services.AddScoped<IJobService, JobService>();
-builder.Services.AddScoped<IApplicationRepo, ApplicationRepo>();
-builder.Services.AddScoped<IApplicationService, ApplicationService>();
-builder.Services.AddScoped<IUserRepo, UserRepo>();
-builder.Services.AddScoped<IFileService, FileService>();
+
+builder.Services.AddScoped<ICandidateService, CandidateRepo>();
+builder.Services.AddScoped<ILevelService, LevelRepo>();
+builder.Services.AddScoped<ICompanyService, CompanyRepo>();
+builder.Services.AddScoped<ISkillService, SkillRepo>();
+builder.Services.AddScoped<IRecruiterService, RecruiterRepo>();
+builder.Services.AddScoped<IJobService, JobRepo>();
+builder.Services.AddScoped<IApplicationService, ApplicationRepo>();
+builder.Services.AddScoped<IUserService, UserRepo>();
+builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddTransient<IPhotoService, PhotoService>();
 builder.Services.AddScoped<IJwtService, JWTService>();
+
 
 
 builder.Services.AddControllers();
@@ -151,7 +146,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseStaticFiles();
+
 app.UseAuthentication();
 app.UseHttpsRedirection();
 

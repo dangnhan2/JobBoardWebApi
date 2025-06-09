@@ -1,5 +1,6 @@
 ﻿using JobBoardWebApi.Dtos;
-using JobBoardWebApi.Service;
+using JobBoardWebApi.Filter;
+using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,9 @@ namespace JobBoardWebApi.Controllers.Admin
         }
 
         [HttpGet("GetAllRecruiters")]
-        public async Task<IActionResult> GetAll([Required] int page, [Required] int pageSize)
+        public async Task<IActionResult> GetAll([FromQuery] RecruiterQueryParams recruiterFilter)
         {
-            var result = await _recruiterService.GetAllRecruiterAsync(page, pageSize);
+            var result = await _recruiterService.GetAllRecruiterAsync(recruiterFilter);
 
             return Ok(new
             {

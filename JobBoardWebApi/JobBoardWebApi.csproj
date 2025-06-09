@@ -10,6 +10,7 @@
     <PackageReference Include="CloudinaryDotNet" Version="1.27.5" />
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="MailKit" Version="4.12.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.16" />
@@ -25,12 +26,6 @@
     </PackageReference>
     <PackageReference Include="Riok.Mapperly" Version="4.2.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\logo\" />
-    <Folder Include="wwwroot\resume\" />
-    <Folder Include="wwwroot\profilepic\" />
   </ItemGroup>
 
 </Project>

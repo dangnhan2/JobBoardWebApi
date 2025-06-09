@@ -1,5 +1,5 @@
 ﻿using JobBoardWebApi.Dtos;
-using JobBoardWebApi.Service;
+using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace JobBoardWebApi.Controllers.Admin
             try
             {
 
-                await _company.CreateCompany(company);
+                await _company.CreateCompanyAsync(company);
                 return Ok(new
                 {
                     message = "Company created successfully",
@@ -61,7 +61,7 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _company.UpdateCompany(id, company);
+                await _company.UpdateCompanyAsync(id, company);
                 return Ok(new
                 {
                     message = "Company updated successfully",
@@ -107,7 +107,7 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _company.DeleteCompany(id);
+                await _company.DeleteCompanyAsync(id);
                 return Ok(new
                 {
                     message = "Company deleted successfully",

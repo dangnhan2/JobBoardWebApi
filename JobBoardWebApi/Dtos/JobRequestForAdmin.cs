@@ -1,7 +1,9 @@
-﻿namespace JobBoardWebApi.Dtos
+﻿using JobBoardWebApi.Enum;
+
+namespace JobBoardWebApi.Dtos
 {
     public class JobRequestForAdmin
     {
-        public string Status { get; set; }
+        public StatusEnum Status { get; set; }
     }
 }

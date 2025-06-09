@@ -1,5 +1,6 @@
 ﻿using JobBoardWebApi.Dtos;
-using JobBoardWebApi.Service;
+using JobBoardWebApi.QueryParams;
+using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -17,9 +18,9 @@ namespace JobBoardWebApi.Controllers
         }
 
         [HttpGet("getAll")]
-        public IActionResult Get([Required] int page, [Required] int pageSize, string searching = "")
+        public IActionResult Get([FromQuery] CompanyQueryParams companyQueryParams)
         {
-            var companies = _company.GetAllCompanies(page, pageSize, searching);
+            var companies = _company.GetAllCompaniesAsync(companyQueryParams);
             return Ok(new
             {
                 message = "Companies retrieved successfully",
