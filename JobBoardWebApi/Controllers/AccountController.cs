@@ -17,19 +17,20 @@ namespace JobBoardWebApi.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IJwtService _jwtService;
-        private readonly ICandidateRepo _candidateRepo;
         private readonly SignInManager<User> _signInManager;
+        private readonly ICandidateService _candidateService;
           
 
-        public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IJwtService jwtService, ICandidateRepo candidateRepo, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IJwtService jwtService, SignInManager<User> signInManager, ICandidateService candidateService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _jwtService = jwtService;
-            _candidateRepo = candidateRepo;
             _signInManager = signInManager;
+            _candidateService = candidateService;
            
         }
+           
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAccount(Register register)
@@ -52,18 +53,11 @@ namespace JobBoardWebApi.Controllers
                 PasswordHash = register.Password,
                 UserName = register.FullName,
                 Created_At = DateTime.UtcNow,
-                ProfilePicUrl = "user.png",
+                ProfilePicUrl = "https://res.cloudinary.com/dtihvekmn/image/upload/v1749112264/user_vga2r2.png",
                 EmailConfirmed = true,
             };
 
             var addingUser = await _userManager.CreateAsync(user, register.Password);
-
-            if (!await _roleManager.RoleExistsAsync(SD.Candidate))
-            {
-                var role = new IdentityRole(SD.Candidate);
-                await _roleManager.CreateAsync(role);
-            }
-
 
             await _userManager.AddToRoleAsync(user, SD.Candidate);
 
@@ -81,14 +75,12 @@ namespace JobBoardWebApi.Controllers
             {
                 Id = Guid.NewGuid(),
                 Gender = "",
-                IsStudent = false,
                 UserId = user.Id,
 
             };
 
-            await _candidateRepo.Create(candidate);
+            await _candidateService.CreateAsync(candidate);
 
-            await _candidateRepo.SaveChanges();
             return Ok(new
             {
                 message = "Register successful!",
@@ -129,12 +121,12 @@ namespace JobBoardWebApi.Controllers
         #region private helper method
         private async Task<UserDto> Createdtodto(User user)
         {
-
+            var roles = await _userManager.GetRolesAsync(user);
             var dto = new UserDto
             {
                 UserName = user.UserName,
-                Email = user.Email,
-                ProfilePicUrl = user.ProfilePicUrl,
+                Id = user.Id,
+                Role = roles.FirstOrDefault(),
                 Token = await _jwtService.GenerateToken(user)
             };
 

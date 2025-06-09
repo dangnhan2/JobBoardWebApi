@@ -1,6 +1,7 @@
 ﻿using JobBoardWebApi.Dtos;
+using JobBoardWebApi.Filter;
 using JobBoardWebApi.Models;
-using JobBoardWebApi.Service;
+using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,9 @@ namespace JobBoardWebApi.Controllers.Recruiter
         }
 
         [HttpGet("getAllJobsApproved")]
-        public async Task<IActionResult> GetAllJobsApproved([Required] int page, [Required] int pageSize)
+        public async Task<IActionResult> GetAllJobsApproved([FromQuery] JobQueryParams jobParams)
         {
-            var jobs = await _jobService.GetAllJobApprovedAsync(page, pageSize);
+            var jobs = await _jobService.GetAllJobApprovedAsync(jobParams);
             return Ok(new
             {
                 message = "Jobs retrieved successfully",

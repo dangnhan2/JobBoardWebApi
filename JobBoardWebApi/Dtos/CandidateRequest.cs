@@ -9,7 +9,7 @@ namespace JobBoardWebApi.Dtos
         public string PhoneNumber { get; set; }
         public string FullName { get; set; }
         public string Gender { get; set; }
-        public IFormFile File { get; set; }
+        public string ProfilePicUrl { get; set; }
         public HashSet<Guid> Skills { get; set; } = new HashSet<Guid>();
     }
 }

@@ -11,6 +11,5 @@
             return source.Skip((page - 1) * pageSize).Take(pageSize);
         }
 
-        //public async Task<T> CheckIsExits(this )
     }
 }

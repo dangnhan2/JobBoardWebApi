@@ -7,6 +7,11 @@ using System.Text;
 
 namespace JobBoardWebApi.Service
 {
+    public interface IJwtService
+    {
+        Task<string> GenerateToken(User user);
+    }
+
     public class JWTService : IJwtService
     {
         private readonly UserManager<User> _userManager;

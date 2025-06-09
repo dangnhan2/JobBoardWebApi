@@ -1,5 +1,5 @@
 ﻿using JobBoardWebApi.Dtos;
-using JobBoardWebApi.Service;
+using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

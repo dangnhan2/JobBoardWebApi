@@ -1,4 +1,6 @@
-﻿namespace JobBoardWebApi.Dtos
+﻿using JobBoardWebApi.Enum;
+
+namespace JobBoardWebApi.Dtos
 {
     public class JobDto
     {   
@@ -7,7 +9,7 @@
         public string? Description { get; set; }
         public string Location { get; set; }
         public string Salary { get; set; }
-        public string Status { get; set; }
+        public StatusEnum Status { get; set; }
         public DateTime Created_At { get; set; }
         public string Company { get; set; }
         public string Level { get; set; }

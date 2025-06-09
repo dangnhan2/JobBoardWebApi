@@ -1,5 +1,5 @@
 ﻿using JobBoardWebApi.Dtos;
-using JobBoardWebApi.Service;
+using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,11 +31,11 @@ namespace JobBoardWebApi.Controllers.Admin
                     statusCode = StatusCodes.Status201Created,
                 });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 return BadRequest(new
                 {
-                    message = e.Message,
+                    message = ex.Message,
                     statusCode = StatusCodes.Status400BadRequest
                 });
 
@@ -54,19 +54,19 @@ namespace JobBoardWebApi.Controllers.Admin
                     statusCode = StatusCodes.Status200OK,
                 });
             }
-            catch (KeyNotFoundException e)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(new
                 {
-                    message = e.Message,
+                    message = ex.Message,
                     StatusCode = StatusCodes.Status404NotFound
                 });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 return BadRequest(new
                 {
-                    message = e.Message,
+                    message = ex.Message,
                     statusCode = StatusCodes.Status400BadRequest
                 });
             }
