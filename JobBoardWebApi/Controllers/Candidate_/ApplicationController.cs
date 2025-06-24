@@ -1,4 +1,4 @@
-﻿using JobBoardWebApi.Dtos;
+﻿using JobBoardWebApi.Dtos.Request;
 using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,11 +11,11 @@ namespace JobBoardWebApi.Controllers.Candidate_
     [Authorize(Roles = "Candidate")]
     public class ApplicationController : ControllerBase
     {
-        private readonly IApplicationService _applicationService;
+        private readonly IApplicationRepo _applicationRepo;
 
-        public ApplicationController(IApplicationService applicationService)
+        public ApplicationController(IApplicationRepo applicationRepo)
         {
-            _applicationService = applicationService;
+            _applicationRepo = applicationRepo;
         }
 
         [HttpPost("createApplication")]
@@ -23,7 +23,7 @@ namespace JobBoardWebApi.Controllers.Candidate_
         {
             try
             {
-                await _applicationService.CreateApplicationAsync(application);
+                await _applicationRepo.CreateApplicationAsync(application);
 
 
                 return Ok(new

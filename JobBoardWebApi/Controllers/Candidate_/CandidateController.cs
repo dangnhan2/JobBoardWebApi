@@ -1,4 +1,4 @@
-﻿using JobBoardWebApi.Dtos;
+﻿using JobBoardWebApi.Dtos.Request;
 using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,14 +9,14 @@ namespace JobBoardWebApi.Controllers.Candidate_
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize (Roles = "Candidate")]
+    //[Authorize (Roles = "Candidate")]
     public class CandidateController : ControllerBase
     {
-        private readonly ICandidateService _candidateService;
+        private readonly ICandidateRepo _candidateRepo;
 
-        public CandidateController(ICandidateService candidateService)
+        public CandidateController(ICandidateRepo candidateRepo)
         {
-            _candidateService = candidateService;
+            _candidateRepo = candidateRepo;
         }
 
         [HttpGet("getCandidateById/{id}")]
@@ -24,7 +24,7 @@ namespace JobBoardWebApi.Controllers.Candidate_
         {
             try
             {
-                var candidate = await _candidateService.GetCandidateByIdAsync(id);
+                var candidate = await _candidateRepo.GetCandidateByIdAsync(id);
                 return Ok(new
                 {
                     message = "Candidate retrieved successfully",
@@ -47,7 +47,7 @@ namespace JobBoardWebApi.Controllers.Candidate_
         {
             try
             {
-                var result = await _candidateService.GetJobByCandidate(id, type);
+                var result = await _candidateRepo.GetJobByCandidate(id, type);
                 return Ok(new
                 {
                     message = "Candidate retrieved successfully",
@@ -70,7 +70,7 @@ namespace JobBoardWebApi.Controllers.Candidate_
         {
             try
             {
-                await _candidateService.SaveJobs(id, saveJobRequest);
+                await _candidateRepo.SaveJobs(id, saveJobRequest);
                 return Ok(new
                 {
                     message = "Updated successful!",
@@ -93,7 +93,7 @@ namespace JobBoardWebApi.Controllers.Candidate_
         {
             try
             {
-                await _candidateService.DeleteSavedJob(id);
+                await _candidateRepo.DeleteSavedJob(id);
                 return Ok(new
                 {
                     message = "Updated successful!",
@@ -116,7 +116,7 @@ namespace JobBoardWebApi.Controllers.Candidate_
         {
             try
             {
-                await _candidateService.UpdateCandidateAsync(id, candidateAction);
+                await _candidateRepo.UpdateCandidateAsync(id, candidateAction);
                 return Ok(new
                 {
                     message = "Updated successful!",

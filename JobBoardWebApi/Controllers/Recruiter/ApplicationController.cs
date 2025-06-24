@@ -1,4 +1,4 @@
-﻿using JobBoardWebApi.Dtos;
+﻿using JobBoardWebApi.Dtos.Request;
 using JobBoardWebApi.Filter;
 using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -12,17 +12,17 @@ namespace JobBoardWebApi.Controllers.Recruiter
     [Authorize(Roles = "Recruiter")]
     public class ApplicationController : ControllerBase
     {
-        private readonly IApplicationService _applicationService;
+        private readonly IApplicationRepo _applicationRepo;
 
-        public ApplicationController(IApplicationService applicationService)
+        public ApplicationController(IApplicationRepo applicationRepo)
         {
-            _applicationService = applicationService;
+            _applicationRepo = applicationRepo;
         }
 
         [HttpGet("getAll")]
         public async Task<IActionResult> GetAll([FromQuery] ApplicationQueryParams applicationParams)
         {
-            var result = await _applicationService.GetAllApplicationsAsync(applicationParams);
+            var result = await _applicationRepo.GetAllApplicationsAsync(applicationParams);
 
             return Ok(new
             {
@@ -37,7 +37,7 @@ namespace JobBoardWebApi.Controllers.Recruiter
         {
             try
             {
-                var result = await _applicationService.GetApplicationByIdAsync(id);
+                var result = await _applicationRepo.GetApplicationByIdAsync(id);
 
                 return Ok(new
                 {
@@ -62,7 +62,7 @@ namespace JobBoardWebApi.Controllers.Recruiter
         {
             try
             {
-                await _applicationService.UpdateApplicationForRecruiterAsync(id, application);
+                await _applicationRepo.UpdateApplicationForRecruiterAsync(id, application);
 
                 return Ok(new
                 {
@@ -86,7 +86,7 @@ namespace JobBoardWebApi.Controllers.Recruiter
         {
             try
             {
-                await _applicationService.DeleteApplicationAsync(id);
+                await _applicationRepo.DeleteApplicationAsync(id);
 
                 return Ok(new
                 {

@@ -1,5 +1,7 @@
 ﻿using JobBoardWebApi.Dtos;
+using JobBoardWebApi.Models;
 using JobBoardWebApi.Repositories;
+using JobBoardWebApi.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sprache;
@@ -10,20 +12,20 @@ namespace JobBoardWebApi.Controllers
     [ApiController]
     public class SkillController : ControllerBase
     {
-        private readonly ISkillService _skillService;
+        private readonly ISkillRepo _skillRepo;
 
-        public SkillController(ISkillService skillService) { 
-          _skillService = skillService;
+        public SkillController(ISkillRepo skillRepo) {
+            _skillRepo = skillRepo;
         }
 
         [HttpGet("getSkills")]
         public async Task<IActionResult> Get()
         {
-            var result = await _skillService.GetSkill();
+            var result = await _skillRepo.GetSkill();
 
             return Ok(new
             {
-                msg = "Skills retrieved successfully", 
+                msg = "Get skills successful",
                 statusCode = StatusCodes.Status200OK,
                 data = result
             });

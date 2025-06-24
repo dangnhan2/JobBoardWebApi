@@ -1,4 +1,4 @@
-﻿using JobBoardWebApi.Dtos;
+﻿using JobBoardWebApi.Dtos.Request;
 using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,13 +8,35 @@ namespace JobBoardWebApi.Controllers.Admin
 {
     [Route("api/admin/[controller]")]
     [ApiController]
-    [Authorize ("Admin")]
+    //[Authorize ("Admin")]
     public class CompanyController : ControllerBase
     {
-        private readonly ICompanyService _company;
-        public CompanyController(ICompanyService company)
+        private readonly ICompanyRepo _companyRepo;
+        public CompanyController(ICompanyRepo companyRepo)
         {
-            _company = company;
+            _companyRepo = companyRepo;
+        }
+
+        [HttpGet("getCompanyById/{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            try
+            {
+                var result = await _companyRepo.GetByIdAsync(id);
+                return Ok(new
+                {
+                    msg = "Company retrieved successful",
+                    statusCode = StatusCodes.Status200OK,
+                    data = result
+                });
+            }catch(KeyNotFoundException ex)
+            {
+                return NotFound(new
+                {
+                    msg = ex.Message,
+                    statusCode = StatusCodes.Status404NotFound
+                });
+            }
         }
 
         [HttpPost("createCompany")]
@@ -23,7 +45,7 @@ namespace JobBoardWebApi.Controllers.Admin
             try
             {
 
-                await _company.CreateCompanyAsync(company);
+                await _companyRepo.CreateCompanyAsync(company);
                 return Ok(new
                 {
                     message = "Company created successfully",
@@ -61,10 +83,10 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _company.UpdateCompanyAsync(id, company);
+                await _companyRepo.UpdateCompanyAsync(id, company);
                 return Ok(new
                 {
-                    message = "Company updated successfully",
+                    msg = "Company updated successfully",
                     statusCode = StatusCodes.Status200OK,
                 });
             }
@@ -72,7 +94,7 @@ namespace JobBoardWebApi.Controllers.Admin
             {
                 return NotFound(new
                 {
-                    message = ex.Message,
+                    msg = ex.Message,
                     statusCode = StatusCodes.Status404NotFound
                 });
             }
@@ -80,7 +102,7 @@ namespace JobBoardWebApi.Controllers.Admin
             {
                 return BadRequest(new
                 {
-                    message = ex.Message,
+                    msg = ex.Message,
                     statusCode = StatusCodes.Status400BadRequest
                 });
             }
@@ -88,7 +110,7 @@ namespace JobBoardWebApi.Controllers.Admin
             {
                 return BadRequest(new
                 {
-                    message = ex.Message,
+                    msg = ex.Message,
                     statusCode = StatusCodes.Status400BadRequest
                 });
             }
@@ -96,7 +118,7 @@ namespace JobBoardWebApi.Controllers.Admin
             {
                 return BadRequest(new
                 {
-                    message = ex.Message,
+                    msg = ex.Message,
                     statusCode = StatusCodes.Status400BadRequest
                 });
             }
@@ -107,10 +129,10 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _company.DeleteCompanyAsync(id);
+                await _companyRepo.DeleteCompanyAsync(id);
                 return Ok(new
                 {
-                    message = "Company deleted successfully",
+                    msg = "Company deleted successfully",
                     statusCode = StatusCodes.Status200OK
 
                 });
@@ -119,7 +141,7 @@ namespace JobBoardWebApi.Controllers.Admin
             {
                 return NotFound(new
                 {
-                    message = ex.Message,
+                    msg = ex.Message,
                     statusCode = StatusCodes.Status404NotFound
                 });
 

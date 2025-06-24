@@ -1,4 +1,4 @@
-﻿using JobBoardWebApi.Dtos;
+﻿using JobBoardWebApi.Dtos.Request;
 using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,14 +8,14 @@ namespace JobBoardWebApi.Controllers.Recruiter
 {
     [Route("api/recruiter/[controller]")]
     [ApiController]
-    [Authorize (Roles = "Recruiter")]
+    //[Authorize (Roles = "Recruiter")]
     public class RecruiterController : ControllerBase
     {
-        private readonly IRecruiterService _recruiterService;
+        private readonly IRecruiterRepo _recruiterRepo;
 
-        public RecruiterController(IRecruiterService recruiterService)
+        public RecruiterController(IRecruiterRepo recruiterRepo)
         {
-            _recruiterService = recruiterService;
+            _recruiterRepo = recruiterRepo;
         }
 
         [HttpGet("GetRecruiterById/{id}")]
@@ -23,7 +23,7 @@ namespace JobBoardWebApi.Controllers.Recruiter
         {
             try
             {
-                var result = await _recruiterService.GetByIdAsync(id);
+                var result = await _recruiterRepo.GetByIdAsync(id);
                 return Ok(new
                 {
                     msg = "Recruiter retrieved successfully",
@@ -47,7 +47,7 @@ namespace JobBoardWebApi.Controllers.Recruiter
         {
             try
             {
-                await _recruiterService.UpdateRecruiterAsync(id, recruiterPostDto);
+                await _recruiterRepo.UpdateRecruiterAsync(id, recruiterPostDto);
                 return Ok(new
                 {
                     msg = "Recruiter updated successfully",

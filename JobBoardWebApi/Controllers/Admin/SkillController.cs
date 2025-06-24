@@ -1,5 +1,6 @@
-﻿using JobBoardWebApi.Dtos;
+﻿using JobBoardWebApi.Dtos.Request;
 using JobBoardWebApi.Repositories;
+using JobBoardWebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,11 @@ namespace JobBoardWebApi.Controllers.Admin
     [Authorize (Roles = "Admin")]
     public class SkillController : ControllerBase
     {
-        private readonly ISkillService _skillService;
+        private readonly ISkillRepo _skillRepo;
 
-        public SkillController(ISkillService skillService)
+        public SkillController(ISkillRepo skillRepo)
         {
-            _skillService = skillService;
+            _skillRepo = skillRepo;
         }
 
         [HttpPost("addSkill")]
@@ -23,7 +24,7 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _skillService.AddSkill(skillAction);
+                await _skillRepo.AddSkill(skillAction);
                 return Ok(new
                 {
                     msg = "Add skill successfully",
@@ -46,7 +47,7 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _skillService.UpdateSkill(id, skillAction);
+                await _skillRepo.UpdateSkill(id, skillAction);
                 return Ok(new
                 {
                     msg = "Update skill successfully",
@@ -77,7 +78,7 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _skillService.DeleteSkill(id);
+                await _skillRepo.DeleteSkill(id);
                 return Ok(new
                 {
                     msg = "Delete skill successfully",

@@ -1,29 +1,26 @@
-﻿using JobBoardWebApi.Dtos;
+﻿using JobBoardWebApi.Dtos.Request;
 using JobBoardWebApi.Filter;
 using JobBoardWebApi.Repositories;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace JobBoardWebApi.Controllers.Admin
 {
     [Route("api/admin/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class RecruiterController : ControllerBase
     {
-        private readonly IRecruiterService _recruiterService;
+        private readonly IRecruiterRepo _recruiterRepo;
 
-        public RecruiterController(IRecruiterService recruiterService)
+        public RecruiterController(IRecruiterRepo recruiterRepo)
         {
-            _recruiterService = recruiterService;
+            _recruiterRepo = recruiterRepo;
         }
 
         [HttpGet("GetAllRecruiters")]
         public async Task<IActionResult> GetAll([FromQuery] RecruiterQueryParams recruiterFilter)
         {
-            var result = await _recruiterService.GetAllRecruiterAsync(recruiterFilter);
+            var result = await _recruiterRepo.GetAllRecruiterAsync(recruiterFilter);
 
             return Ok(new
             {
@@ -38,7 +35,7 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                var result = await _recruiterService.GetByIdAsync(id);
+                var result = await _recruiterRepo.GetByIdAsync(id);
                 return Ok(new
                 {
                     msg = "Recruiter retrieved successfully",
@@ -62,7 +59,7 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _recruiterService.CreateRecruiterAsync(recruiterPostDto);
+                await _recruiterRepo.CreateRecruiterAsync(recruiterPostDto);
                 return Ok(new
                 {
                     msg = "Recruiter created successfully",
@@ -84,7 +81,7 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _recruiterService.UpdateRecruiterAsync(id, recruiterPostDto);
+                await _recruiterRepo.UpdateRecruiterAsync(id, recruiterPostDto);
                 return Ok(new
                 {
                     msg = "Recruiter updated successfully",
@@ -122,7 +119,7 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _recruiterService.DeleteRecruiterAsync(id);
+                await _recruiterRepo.DeleteRecruiterAsync(id);
                 return Ok(new
                 {
                     msg = "Recruiter deleted successfully",

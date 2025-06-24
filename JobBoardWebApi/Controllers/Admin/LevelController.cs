@@ -1,4 +1,4 @@
-﻿using JobBoardWebApi.Dtos;
+﻿using JobBoardWebApi.Dtos.Request;
 using JobBoardWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,10 +11,10 @@ namespace JobBoardWebApi.Controllers.Admin
     [Authorize("Admin")]
     public class LevelController : ControllerBase
     {
-        private readonly ILevelService _level;
-        public LevelController(ILevelService level)
+        private readonly ILevelRepo _levelRepo;
+        public LevelController(ILevelRepo levelRepo)
         {
-            _level = level;
+            _levelRepo = levelRepo;
         }
 
 
@@ -24,7 +24,7 @@ namespace JobBoardWebApi.Controllers.Admin
 
             try
             {
-                await _level.AddLevel(levelDto);
+                await _levelRepo.AddLevel(levelDto);
                 return Ok(new
                 {
                     message = "Add level successfully",
@@ -47,7 +47,7 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _level.UpdateLevel(id, levelDto);
+                await _levelRepo.UpdateLevel(id, levelDto);
                 return Ok(new
                 {
                     message = "Update level successfully",
@@ -77,7 +77,7 @@ namespace JobBoardWebApi.Controllers.Admin
         {
             try
             {
-                await _level.DeleteLevel(id);
+                await _levelRepo.DeleteLevel(id);
                 return Ok(new
                 {
                     message = "Delete level successfully",

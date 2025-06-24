@@ -4,9 +4,8 @@ namespace JobBoardWebApi.Dtos
 {
     public class UserDto
     {  
-        public string UserName { get; set; }
-        public string Id { get; set; }
-        public string Role { get; set; }
+        public object Profile { get; set; }
         public string Token { get; set; }
+        public string RefreshToken { get; set; }
     }
 }

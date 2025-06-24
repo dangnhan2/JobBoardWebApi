@@ -9,16 +9,16 @@ namespace JobBoardWebApi.Controllers
     [ApiController]
     public class LevelController : ControllerBase
     {
-        private readonly ILevelService _level;
-        public LevelController(ILevelService level)
+        private readonly ILevelRepo _levelRepo;
+        public LevelController(ILevelRepo levelRepo)
         {
-            _level = level;
+            _levelRepo = levelRepo;
         }
 
         [HttpGet("getLevels")]
         public async Task<IActionResult> Get()
         {
-            var levels = await _level.GetLevels();
+            var levels = await _levelRepo.GetLevels();
             return Ok(new
             {
                 message = "Get levels successfully",

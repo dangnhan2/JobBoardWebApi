@@ -13,17 +13,17 @@ namespace JobBoardWebApi.Controllers.Candidate
     [Authorize(Roles = "Candidate")]
     public class JobController : ControllerBase
     {
-        private readonly IJobService _jobService;
+        private readonly IJobRepo _jobRepo;
 
-        public JobController(IJobService jobService)
+        public JobController(IJobRepo jobRepo)
         {
-            _jobService = jobService;
+            _jobRepo = jobRepo;
         }
 
         [HttpGet("getAllJobsApproved")]
         public async Task<IActionResult> GetAllJobsApproved([FromQuery] JobQueryParams jobFilter)
         {
-            var jobs = await _jobService.GetAllJobApprovedAsync(jobFilter);
+            var jobs = await _jobRepo.GetAllJobApprovedAsync(jobFilter);
             return Ok(new
             {
                 message = "Jobs retrieved successfully",

@@ -1,11 +1,15 @@
 ﻿using JobBoardWebApi.Dtos;
+using JobBoardWebApi.Dtos.Request;
+using JobBoardWebApi.Enum;
 using JobBoardWebApi.Models;
 using JobBoardWebApi.Repositories;
 using JobBoardWebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Data.SqlClient;
+using Serilog;
+using System.Diagnostics;
 using System.Security.Claims;
 
 namespace JobBoardWebApi.Controllers
@@ -15,25 +19,22 @@ namespace JobBoardWebApi.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IJwtService _jwtService;
         private readonly SignInManager<User> _signInManager;
-        private readonly ICandidateService _candidateService;
-          
+        private readonly ICandidateRepo _candidateRepo;
+        private readonly IJwtService _jwtService;
 
-        public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IJwtService jwtService, SignInManager<User> signInManager, ICandidateService candidateService)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ICandidateRepo candidateRepo,IJwtService jwtService)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
-            _jwtService = jwtService;
             _signInManager = signInManager;
-            _candidateService = candidateService;
+            _candidateRepo = candidateRepo;
+            _jwtService = jwtService;
            
         }
            
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAccount(Register register)
+        public async Task<IActionResult> RegisterAccount(RegisterVM register)
         {
             var isEmailExist = await IsEmailAvailable(register.Email);
 
@@ -59,9 +60,6 @@ namespace JobBoardWebApi.Controllers
 
             var addingUser = await _userManager.CreateAsync(user, register.Password);
 
-            await _userManager.AddToRoleAsync(user, SD.Candidate);
-
-
             if (!addingUser.Succeeded)
             {
                 return BadRequest(new
@@ -70,6 +68,9 @@ namespace JobBoardWebApi.Controllers
                     statusCode = StatusCodes.Status400BadRequest,
                 });
             }
+            await _userManager.AddToRoleAsync(user, "Candidate");
+
+
 
             var candidate = new Models.Candidate
             {
@@ -79,7 +80,7 @@ namespace JobBoardWebApi.Controllers
 
             };
 
-            await _candidateService.CreateAsync(candidate);
+            await _candidateRepo.CreateAsync(candidate);
 
             return Ok(new
             {
@@ -89,49 +90,58 @@ namespace JobBoardWebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login([FromBody] Login login)
+        public async Task<IActionResult> Login([FromBody] LoginVM login)
         {
-            var user = await _userManager.FindByEmailAsync(login.Email.ToLower());
-
+            var sw = Stopwatch.StartNew();
+            var user = await _userManager.FindByEmailAsync(login.Email);
+            Log.Information("⏱ Find user: {0} ms", sw.ElapsedMilliseconds);
             if (user == null)
-            {
-                return Unauthorized("Invalid email or password");
-            }
+                {
+                    return Unauthorized("Invalid email or password");
+                }
 
-            if (user.EmailConfirmed == false) return Unauthorized("Email not confirmed");
-
+                if (user.EmailConfirmed == false) return Unauthorized("Email not confirmed");
+            sw.Restart();
             var result = await _signInManager.CheckPasswordSignInAsync(user, login.Password, false);
-
+            Log.Information("⏱ Verify password: {0} ms", sw.ElapsedMilliseconds);
             if (!result.Succeeded)
+                {
+                    return Unauthorized("Invalid email or password");
+                }
+            sw.Restart();
+            var userDto = await _jwtService.GenerateToken(user);
+            Log.Information("⏱ Generate token: {0} ms", sw.ElapsedMilliseconds);
+            Response.Cookies.Append(
+                "refresh_token",
+                userDto.RefreshToken,
+                new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Path = "/"
+                });
+            return Ok(new
             {
-                return Unauthorized("Invalid email or password");
-            }
-
-            return await Createdtodto(user);
+                msg = "Login successful!",
+                statusCode = StatusCodes.Status200OK,
+                data = new
+                {
+                    Profile = userDto.Profile,
+                    Token = userDto.Token
+                }
+            });
         }
 
         [Authorize]
-        [HttpGet("refreshToken")]
-        public async Task<ActionResult<UserDto>> RefreshToken()
+        [HttpPost("refreshToken")]
+        public async Task<ActionResult<UserDto>> RefreshToken(string token)
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
-            return await Createdtodto(user);
+            return await _jwtService.RefreshToken(token);
         }
 
         #region private helper method
-        private async Task<UserDto> Createdtodto(User user)
-        {
-            var roles = await _userManager.GetRolesAsync(user);
-            var dto = new UserDto
-            {
-                UserName = user.UserName,
-                Id = user.Id,
-                Role = roles.FirstOrDefault(),
-                Token = await _jwtService.GenerateToken(user)
-            };
-
-            return dto;
-        }
        
         private async Task<bool> IsEmailAvailable(string email)
         {

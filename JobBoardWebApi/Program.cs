@@ -2,15 +2,23 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using DotNetEnv;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using JobBoardWebApi.Data;
 using JobBoardWebApi.Models;
 using JobBoardWebApi.Repositories;
 using JobBoardWebApi.Service;
+using JobBoardWebApi.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Org.BouncyCastle.Crypto.Signers;
+using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Json;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,19 +36,25 @@ var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
 var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE");
 var expiresMinutes = Environment.GetEnvironmentVariable("JWT_EXPIRES_MINUTES");
 
-if (string.IsNullOrWhiteSpace(secret))
-{
-    throw new Exception("JWT_SECRET is not set in environment variables.");
-}
 
 Account account = new Account(cloudName, apiKey, apiSecret);
 Cloudinary cloudinary = new Cloudinary(account);
 cloudinary.Api.Secure = true;
 
-
+// Initial connection string
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connection));
 
+// initial logger
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .ReadFrom.Configuration(builder.Configuration)   // đọc appsettings.json
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // cấu hình password cho user
 builder.Services.Configure<IdentityOptions>(options =>
@@ -88,28 +102,31 @@ builder.Services
          };
      });
 
+
+// DI
+
 builder.Services.AddSingleton(cloudinary);
-
-
-
-builder.Services.AddScoped<ICandidateService, CandidateRepo>();
-builder.Services.AddScoped<ILevelService, LevelRepo>();
-builder.Services.AddScoped<ICompanyService, CompanyRepo>();
-builder.Services.AddScoped<ISkillService, SkillRepo>();
-builder.Services.AddScoped<IRecruiterService, RecruiterRepo>();
-builder.Services.AddScoped<IJobService, JobRepo>();
-builder.Services.AddScoped<IApplicationService, ApplicationRepo>();
-builder.Services.AddScoped<IUserService, UserRepo>();
+builder.Services.AddScoped<ICandidateRepo, CandidateService>();
+builder.Services.AddScoped<ILevelRepo, LevelService>();
+builder.Services.AddScoped<ICompanyRepo, CompanyService>();
+builder.Services.AddScoped<ISkillRepo, SkillService>();
+builder.Services.AddScoped<IRecruiterRepo, RecruiterRepo>();
+builder.Services.AddScoped<IJobRepo, JobService>();
+builder.Services.AddScoped<IApplicationRepo, ApplicationService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IPhotoService, PhotoService>();
 builder.Services.AddScoped<IJwtService, JWTService>();
 
-
+// Register Validators
+builder.Services.AddFluentValidationAutoValidation(); // Bật tự động validate
+builder.Services.AddValidatorsFromAssemblyContaining<ValidationApplicationRequest>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+// Config Swagger able to add bearer token
 builder.Services.AddSwaggerGen(opt =>
 {
     opt.SwaggerDoc("v1", new OpenApiInfo { Title = "MyAPI", Version = "v1" });
@@ -138,6 +155,18 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
+// Config serilog
+builder.Host.UseSerilog((ctx, config) =>
+{
+    config.WriteTo.Console().MinimumLevel.Information();
+    config.WriteTo.File(
+       path: AppDomain.CurrentDomain.BaseDirectory + "/logs/log-.txt",
+       rollingInterval: RollingInterval.Day,
+       rollOnFileSizeLimit: true,
+       formatter: new JsonFormatter()).MinimumLevel.Information();
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -146,6 +175,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseSerilogRequestLogging(opts =>
+{
+    opts.MessageTemplate = "HTTP {RequestMethod} {RequestPath} => {StatusCode} in {Elapsed:0.0000} ms";
+});
+
 
 app.UseAuthentication();
 app.UseHttpsRedirection();

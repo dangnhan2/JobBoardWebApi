@@ -11,16 +11,16 @@ namespace JobBoardWebApi.Controllers
     [ApiController]
     public class CompanyController : ControllerBase
     {
-        private readonly ICompanyService _company;
-        public CompanyController(ICompanyService company)
+        private readonly ICompanyRepo _companyRepo;
+        public CompanyController(ICompanyRepo companyRepoy)
         {
-            _company = company;
+            _companyRepo = companyRepoy;
         }
 
         [HttpGet("getAll")]
         public IActionResult Get([FromQuery] CompanyQueryParams companyQueryParams)
         {
-            var companies = _company.GetAllCompaniesAsync(companyQueryParams);
+            var companies = _companyRepo.GetAllCompaniesAsync(companyQueryParams);
             return Ok(new
             {
                 message = "Companies retrieved successfully",

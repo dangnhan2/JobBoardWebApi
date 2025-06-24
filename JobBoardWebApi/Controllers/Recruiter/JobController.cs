@@ -1,4 +1,4 @@
-﻿using JobBoardWebApi.Dtos;
+﻿using JobBoardWebApi.Dtos.Request;
 using JobBoardWebApi.Filter;
 using JobBoardWebApi.Models;
 using JobBoardWebApi.Repositories;
@@ -11,20 +11,20 @@ namespace JobBoardWebApi.Controllers.Recruiter
 {   
     [Route("api/recruiter/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Recruiter")]
+    //[Authorize(Roles = "Recruiter")]
     public class JobController : ControllerBase
     {
-        private readonly IJobService _jobService;
+        private readonly IJobRepo _jobRepo;
 
-        public JobController(IJobService jobService)
+        public JobController(IJobRepo jobRepo)
         {
-            _jobService = jobService;
+            _jobRepo = jobRepo;
         }
 
         [HttpGet("getAllJobsApproved")]
         public async Task<IActionResult> GetAllJobsApproved([FromQuery] JobQueryParams jobParams)
         {
-            var jobs = await _jobService.GetAllJobApprovedAsync(jobParams);
+            var jobs = await _jobRepo.GetAllJobApprovedAsync(jobParams);
             return Ok(new
             {
                 message = "Jobs retrieved successfully",
@@ -38,7 +38,7 @@ namespace JobBoardWebApi.Controllers.Recruiter
         {
             try
             {
-                var job = await _jobService.GetByIdAsync(id);
+                var job = await _jobRepo.GetByIdAsync(id);
                 return Ok(new
                 {
                     message = "Job retrieved successfully",
@@ -62,7 +62,7 @@ namespace JobBoardWebApi.Controllers.Recruiter
         {
             try
             {
-                await _jobService.CreateJobAsync(job);
+                await _jobRepo.CreateJobAsync(job);
                 return Ok(new
                 {
                     message = "Job created successfully",
@@ -87,7 +87,7 @@ namespace JobBoardWebApi.Controllers.Recruiter
         {
             try
             {
-                await _jobService.UpdateJobForRecruiterAsync(id, job);
+                await _jobRepo.UpdateJobForRecruiterAsync(id, job);
                 return Ok(new
                 {
                     message = "Job updated successfully",

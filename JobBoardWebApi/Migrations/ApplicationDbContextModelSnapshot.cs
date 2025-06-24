@@ -22,6 +22,237 @@ namespace JobBoardWebApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("JobBoardWebApi.Dtos.ApplicationDto", b =>
+                {
+                    b.Property<string>("CoverLetter")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
+                });
+
+            modelBuilder.Entity("JobBoardWebApi.Dtos.FlatDto.AdminFlatDto", b =>
+                {
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfilePicUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
+                });
+
+            modelBuilder.Entity("JobBoardWebApi.Dtos.FlatDto.CandidateFlatDto", b =>
+                {
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfilePicUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("SkillId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SkillName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
+                });
+
+            modelBuilder.Entity("JobBoardWebApi.Dtos.FlatDto.CompanyFlatDto", b =>
+                {
+                    b.Property<string>("Company")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Created_At")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("JobId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Level")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Skill")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
+                });
+
+            modelBuilder.Entity("JobBoardWebApi.Dtos.FlatDto.RecruiterFlatDto", b =>
+                {
+                    b.Property<string>("Company")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LogoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfilePirUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
+                });
+
+            modelBuilder.Entity("JobBoardWebApi.Dtos.JobDto", b =>
+                {
+                    b.Property<string>("Company")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Created_At")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Level")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Skill")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
+                });
+
+            modelBuilder.Entity("JobBoardWebApi.Dtos.JobType", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LogoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
+                });
+
             modelBuilder.Entity("JobBoardWebApi.Models.Application", b =>
                 {
                     b.Property<Guid>("Id")
@@ -89,7 +320,7 @@ namespace JobBoardWebApi.Migrations
                     b.ToTable("Candidates");
                 });
 
-            modelBuilder.Entity("JobBoardWebApi.Models.CandidateSkillMapping", b =>
+            modelBuilder.Entity("JobBoardWebApi.Models.CandidateSkill", b =>
                 {
                     b.Property<Guid>("CandidateId")
                         .HasColumnType("uniqueidentifier");
@@ -101,7 +332,7 @@ namespace JobBoardWebApi.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("CandidateSkillMapping");
+                    b.ToTable("CandidateSkills");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Company", b =>
@@ -109,6 +340,9 @@ namespace JobBoardWebApi.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created_At")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LogoUrl")
                         .IsRequired()
@@ -118,6 +352,9 @@ namespace JobBoardWebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Updated_at")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
@@ -125,28 +362,51 @@ namespace JobBoardWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a2c2456d-fe71-49b5-8561-bfaf7a916a9a"),
+                            Id = new Guid("5e606485-ed68-4b55-915e-2e2beaffd99d"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5641),
                             LogoUrl = "https://res.cloudinary.com/dtihvekmn/image/upload/v1749136395/fpt-software_uorpkb.png",
-                            Name = "FPT Software"
+                            Name = "FPT Software",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("e65108fc-581f-4a23-a6dd-c27c778430ff"),
+                            Id = new Guid("6da8d8a3-e511-480f-98e8-96ce370fffe9"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5650),
                             LogoUrl = "https://res.cloudinary.com/dtihvekmn/image/upload/v1749136683/VNPT-logo_ngjek0.jpg",
-                            Name = "VNPT Technology"
+                            Name = "VNPT Technology",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("6ead7f21-4759-43be-836f-a50034e57505"),
+                            Id = new Guid("94a48e01-47ab-41ea-ad04-a6bdedeb3932"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5653),
                             LogoUrl = "https://res.cloudinary.com/dtihvekmn/image/upload/v1749136592/kms-logo_mnuae3.png",
-                            Name = "KMS Technology"
+                            Name = "KMS Technology",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("54639c66-5357-4bec-a7c6-b18a96a07ec3"),
+                            Id = new Guid("55805609-b925-4c9f-94ea-8703e3a07dfb"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5655),
                             LogoUrl = "https://res.cloudinary.com/dtihvekmn/image/upload/v1749136149/haranvan_l9df1x.png",
-                            Name = "Haravan"
+                            Name = "Haravan",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
+                });
+
+            modelBuilder.Entity("JobBoardWebApi.Models.CompanySkill", b =>
+                {
+                    b.Property<Guid>("SkillId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("SkillId", "CompanyId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("CompanySkill");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Job", b =>
@@ -205,9 +465,15 @@ namespace JobBoardWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("Created_At")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Updated_at")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -216,33 +482,45 @@ namespace JobBoardWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9f9d8e2b-5f37-42b3-9e89-408173d0be34"),
-                            Name = "Intern"
+                            Id = new Guid("d16a06f7-251b-41ef-8ef3-14974e9e2b94"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5123),
+                            Name = "Intern",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("080f6f19-46fb-4883-b3b9-94fe3941aad3"),
-                            Name = "Fresher"
+                            Id = new Guid("042a31d6-68ab-45b5-9529-b4f109f02ea9"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5227),
+                            Name = "Fresher",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("64169e4d-7e62-40d6-930f-4d9efd9a3e7a"),
-                            Name = "Junior"
+                            Id = new Guid("466db784-2a8f-4723-880f-4827534384fa"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5230),
+                            Name = "Junior",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("a676a27e-a23e-4aa9-9e76-26cc457fa835"),
-                            Name = "Middle"
+                            Id = new Guid("6b2f309f-0b61-4d62-8f3a-8dfcedb6c3fd"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5232),
+                            Name = "Middle",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("76584184-a379-4704-acb3-addb8b10900f"),
-                            Name = "Senior"
+                            Id = new Guid("eefc0922-80c7-4299-908a-70dc87e0c5b6"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5233),
+                            Name = "Senior",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("48ff09a5-bb0b-436b-82e2-f1abe4567816"),
-                            Name = "Leader"
+                            Id = new Guid("5f39b3c1-eafb-44a2-8e6e-e4f4d5a517a7"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5235),
+                            Name = "Leader",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -261,13 +539,46 @@ namespace JobBoardWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId")
-                        .IsUnique();
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Recruiters");
+                });
+
+            modelBuilder.Entity("JobBoardWebApi.Models.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Added_AT")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Expired_At")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Jti")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.SavedJob", b =>
@@ -297,9 +608,15 @@ namespace JobBoardWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("Created_At")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Updated_at")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -308,53 +625,73 @@ namespace JobBoardWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e6d60769-0b6c-4322-84c5-f752087da6d2"),
-                            Name = "C#"
+                            Id = new Guid("f03d9fdc-fde0-4c1c-9a3b-22080fdeed19"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5558),
+                            Name = "C#",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("15d90349-015c-4b55-ad39-0add58d87d78"),
-                            Name = "JavaScript"
+                            Id = new Guid("c07c0add-8546-4a9d-a40c-2746f1fdda27"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5572),
+                            Name = "JavaScript",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("3058a4db-1879-479b-934b-e94863006151"),
-                            Name = "Python"
+                            Id = new Guid("096c3ced-254c-455b-aebd-a8708e3993ce"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5575),
+                            Name = "Python",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("969bb38e-2d42-4c18-b76d-876bdda806be"),
-                            Name = "SQL"
+                            Id = new Guid("6ace33f0-733d-4615-a9ed-b6811a6336f3"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5580),
+                            Name = "SQL",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("cc68de50-eba7-4eec-8292-4909ae18b0d7"),
-                            Name = "HTML/CSS"
+                            Id = new Guid("a348829f-6535-41d0-9b72-ad6a0b262eb9"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5582),
+                            Name = "HTML/CSS",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("5fa25bf3-5f56-4ca9-bf6a-f96c6dd5634b"),
-                            Name = "React"
+                            Id = new Guid("bbe3a548-4a8e-4079-8654-8df3b190fe8c"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5585),
+                            Name = "React",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("0c3282f9-4595-4b0c-9e0d-b4c634abd092"),
-                            Name = "ASP.NET Core"
+                            Id = new Guid("a1b53195-66de-4f99-8833-b6588b2d5866"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5587),
+                            Name = "ASP.NET Core",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("15754ef6-63d2-4dde-bffe-1153bf4af403"),
-                            Name = "Java"
+                            Id = new Guid("5954b07f-6983-429d-949c-ce5c3747b96c"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5589),
+                            Name = "Java",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("ea583aa5-324a-47df-be0a-051cd5bf919b"),
-                            Name = "Kubernetes"
+                            Id = new Guid("cd48e461-a480-435c-a516-86f4521a2904"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5591),
+                            Name = "Kubernetes",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("656e085d-5a9e-4b30-b339-a8aae8b38e92"),
-                            Name = "Azure"
+                            Id = new Guid("73ebf19f-0ccc-475e-8bbf-f58059f12fc2"),
+                            Created_At = new DateTime(2025, 6, 23, 20, 37, 26, 552, DateTimeKind.Local).AddTicks(5594),
+                            Name = "Azure",
+                            Updated_at = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -439,17 +776,17 @@ namespace JobBoardWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d371b9c6-6812-41c1-83c5-c3f2cf774fbb",
+                            Id = "33ff7280-40c3-439a-9f08-0a9fcec6a744",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3b5f783b-004a-4b15-976a-016e9dbd1189",
-                            Created_At = new DateTime(2025, 6, 5, 16, 45, 56, 11, DateTimeKind.Utc).AddTicks(212),
+                            ConcurrencyStamp = "2fa7b7d8-d7ac-4452-88ef-4c628f2b4a37",
+                            Created_At = new DateTime(2025, 6, 23, 13, 37, 26, 552, DateTimeKind.Utc).AddTicks(5776),
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             FullName = "admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ/tVRysfAFzIwIy2l54ubdmB7psBvgU1YZesz+YXmeENtt9sFKmbNPysuEoCX2DSQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHyOLtjRGaooQOdqM/Y+rnbSvE+VjpnXZM3aeHdRz56pvhh0OAFqFHedP71DrPE+Yg==",
                             PhoneNumberConfirmed = false,
                             ProfilePicUrl = "https://res.cloudinary.com/dtihvekmn/image/upload/v1749112264/user_vga2r2.png",
                             SecurityStamp = "",
@@ -487,19 +824,19 @@ namespace JobBoardWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5c5e2ff0-1ca7-4158-ab12-3cbd7e7baf99",
+                            Id = "7c6399a6-a2ab-4c02-afb9-b7a4ff29aeae",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "463f62ca-7de3-4cee-b2b3-58553553042f",
+                            Id = "cbcbd7e8-7109-4021-9780-4e13bc9c0e8d",
                             Name = "Recruiter",
                             NormalizedName = "RECRUITER"
                         },
                         new
                         {
-                            Id = "31a84316-960e-406a-8e4b-b539cf1bab93",
+                            Id = "8409056b-d1b8-4090-8faa-501d616158c8",
                             Name = "Candidate",
                             NormalizedName = "CANDIDATE"
                         });
@@ -594,8 +931,8 @@ namespace JobBoardWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "d371b9c6-6812-41c1-83c5-c3f2cf774fbb",
-                            RoleId = "5c5e2ff0-1ca7-4158-ab12-3cbd7e7baf99"
+                            UserId = "33ff7280-40c3-439a-9f08-0a9fcec6a744",
+                            RoleId = "7c6399a6-a2ab-4c02-afb9-b7a4ff29aeae"
                         });
                 });
 
@@ -659,21 +996,40 @@ namespace JobBoardWebApi.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("JobBoardWebApi.Models.CandidateSkillMapping", b =>
+            modelBuilder.Entity("JobBoardWebApi.Models.CandidateSkill", b =>
                 {
                     b.HasOne("JobBoardWebApi.Models.Candidate", "Candidate")
-                        .WithMany("candidateSkillMappings")
+                        .WithMany("CandidateSkills")
                         .HasForeignKey("CandidateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("JobBoardWebApi.Models.Skill", "Skill")
-                        .WithMany("candidateSkillMappings")
+                        .WithMany("CandidateSkills")
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Candidate");
+
+                    b.Navigation("Skill");
+                });
+
+            modelBuilder.Entity("JobBoardWebApi.Models.CompanySkill", b =>
+                {
+                    b.HasOne("JobBoardWebApi.Models.Company", "Company")
+                        .WithMany("CompanySkills")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobBoardWebApi.Models.Skill", "Skill")
+                        .WithMany("CompanySkills")
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
 
                     b.Navigation("Skill");
                 });
@@ -708,8 +1064,8 @@ namespace JobBoardWebApi.Migrations
             modelBuilder.Entity("JobBoardWebApi.Models.Recruiter", b =>
                 {
                     b.HasOne("JobBoardWebApi.Models.Company", "Company")
-                        .WithOne("Recruiter")
-                        .HasForeignKey("JobBoardWebApi.Models.Recruiter", "CompanyId")
+                        .WithMany("Recruiters")
+                        .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -720,6 +1076,17 @@ namespace JobBoardWebApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Company");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("JobBoardWebApi.Models.RefreshToken", b =>
+                {
+                    b.HasOne("JobBoardWebApi.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -803,17 +1170,18 @@ namespace JobBoardWebApi.Migrations
                 {
                     b.Navigation("Applications");
 
-                    b.Navigation("SavedJobs");
+                    b.Navigation("CandidateSkills");
 
-                    b.Navigation("candidateSkillMappings");
+                    b.Navigation("SavedJobs");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Company", b =>
                 {
+                    b.Navigation("CompanySkills");
+
                     b.Navigation("Jobs");
 
-                    b.Navigation("Recruiter")
-                        .IsRequired();
+                    b.Navigation("Recruiters");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.Job", b =>
@@ -830,9 +1198,11 @@ namespace JobBoardWebApi.Migrations
 
             modelBuilder.Entity("JobBoardWebApi.Models.Skill", b =>
                 {
-                    b.Navigation("Jobs");
+                    b.Navigation("CandidateSkills");
 
-                    b.Navigation("candidateSkillMappings");
+                    b.Navigation("CompanySkills");
+
+                    b.Navigation("Jobs");
                 });
 
             modelBuilder.Entity("JobBoardWebApi.Models.User", b =>
